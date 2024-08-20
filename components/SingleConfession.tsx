@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getSingleConfession } from '@/lib/actions/confession.actions';
 import { TConfession } from '@/lib/types';
 import CardConfession from './CardConfession';
 
@@ -16,11 +15,11 @@ const SingleConfessionPage = ({ id, user }: SingleConfessionPageProps) => {
 		const fetchData = async () => {
 			try {
 				const response = await fetch(`/api/confession/comments?id=${id}`, {
-					next: { revalidate: 3600 },
+					cache: 'no-store',
 				});
 				const data = await response.json();
 
-				setConfessions(data[0]);
+				setConfessions(data[0] || null);
 				setLoading(false);
 
 				// console.log(data);
@@ -33,7 +32,7 @@ const SingleConfessionPage = ({ id, user }: SingleConfessionPageProps) => {
 		};
 
 		fetchData();
-	}, [id]);
+	}, [id, confessions?.comments]);
 
 	if (loading) return 'Loading...';
 

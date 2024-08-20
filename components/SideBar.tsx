@@ -10,7 +10,7 @@ import { CornerDownRight, CirclePlus, MessageCircleMore } from 'lucide-react';
 
 export function SideBar() {
 	const pathname = usePathname();
-	const icons = [<CornerDownRight size={18} />, <CirclePlus size={18}/>, <MessageCircleMore size={18}/>];
+	const icons = [<CornerDownRight size={18} />, <CirclePlus size={18} />, <MessageCircleMore size={18} />];
 
 	return (
 		<Sheet>
@@ -33,13 +33,11 @@ export function SideBar() {
 					{NavLinks.map((link, idx) => {
 						const isActive = pathname === link.route;
 						return (
-							<div className="flex gap-x-2">
+							<div className="flex gap-x-2" key={link.route}>
 								<span
-									className={cn('text-foreground/80 bg-transparent p-[4px] rounded-lg', {
-										// 'text-foreground': isActive,
-										'text-foreground/100': isActive,
-										'text-foreground/60': !isActive,
+									className={cn('text-gray-500/100 dark:text-gray-100/90 bg-transparent p-[4px] rounded-lg', {
 										grayscale: !isActive,
+										'text-gray-100/90': isActive,
 
 										// different bg color in every icon
 
@@ -51,14 +49,14 @@ export function SideBar() {
 									{icons[idx]}
 								</span>
 
-								<Link
-									key={link.route}
-									className={cn('flex max-w-fit font-medium text-[16px]  transition-colors text-foreground/80 hover:text-foreground/100', {
+								<Link 
+									className={cn(' flex max-w-fit font-medium text-[16px]  transition-colors text-foreground/80 hover:text-foreground/100', {
 										'text-foreground/100': isActive,
 									})}
 									href={link.route}
 								>
-									<SheetClose>{link.title}</SheetClose>
+									<SheetClose className='active:border-0 active:outline-0 border-0 focus:border-0 focus:outline-0'>{link.title}</SheetClose>
+									{/* {link.title} */}
 								</Link>
 							</div>
 						);
@@ -67,8 +65,8 @@ export function SideBar() {
 
 				<SheetFooter className="bottom-5 right-5 absolute">
 					<SheetClose asChild>
-						<div className="rounded-full bg-sky-100 p-2">
-							<LogOut className="text-foreground/80" size={18} />
+						<div className="cursor-pointer rounded-full bg-background p-2 flex items-center justify-center gap-x-2 text-foreground/80">
+							Logout <LogOut size={18} />
 						</div>
 					</SheetClose>
 				</SheetFooter>

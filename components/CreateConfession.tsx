@@ -131,7 +131,7 @@ export default function CreateConfessionForm() {
 							{loading ? (
 								<div className="flex items-center">
 									<LoaderCircle size={18} className="animate-spin" />
-									<span className="ml-2">Processing...</span>
+									<span className="ml-2">Processing</span>
 								</div>
 							) : (
 								'Submit'
