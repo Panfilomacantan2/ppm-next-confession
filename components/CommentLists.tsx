@@ -1,22 +1,18 @@
 import { getSingleConfession } from '@/lib/actions/confession.actions';
-import { TComment } from '@/lib/types';
+import { TComment, TConfession } from '@/lib/types';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
-
-
 const CommentLists = ({ confessionId }: { confessionId: string }) => {
-	const [comments, setComments] = useState([]);
+	const [comments, setComments] = useState<TComment[]>([]);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const fetchedConfession = (await getSingleConfession(confessionId)) ;
+				const fetchedConfession = (await getSingleConfession(confessionId)) as TConfession;
+
 				if (fetchedConfession) {
-					
-
 					setComments(fetchedConfession.comments);
-
 					console.log(fetchedConfession.comments);
 				}
 			} catch (error) {
@@ -34,7 +30,7 @@ const CommentLists = ({ confessionId }: { confessionId: string }) => {
 
 	return (
 		<div className="max-h-40 scrollbar-hidden hover:scrollbar overflow-y-scroll my-4">
-			{comments.map((comment: any) => (
+			{comments.map((comment) => (
 				<div key={comment._id} className="flex items-start space-x-3 p-4 pb-0 shadow rounded-lg">
 					<div className="flex-shrink-0">
 						{comment.avatar ? <Image src={comment.avatar} alt={comment.author} width={40} height={40} className="rounded-full" /> : <div className="rounded-full bg-gray-300 h-10 w-10"></div>}
