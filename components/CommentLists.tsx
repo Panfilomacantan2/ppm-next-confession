@@ -1,32 +1,8 @@
-import { getSingleConfession } from '@/lib/actions/confession.actions';
 import { TComment, TConfession } from '@/lib/types';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
 
-const CommentLists = ({ confessionId }: { confessionId: string }) => {
-	const [comments, setComments] = useState<TComment[]>([]);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const fetchedConfession = (await getSingleConfession(confessionId)) as TConfession;
-
-				if (fetchedConfession) {
-					setComments(fetchedConfession.comments);
-					console.log(fetchedConfession.comments);
-				}
-			} catch (error) {
-				console.error('Failed to fetch confession:', error);
-				// Handle error (e.g., set an error state and display a message to the user)
-			}
-		};
-
-		fetchData();
-	}, [confessionId]);
-
-	if (!comments.length) {
-		return <p className="py-4">No comments yet!</p>;
-	}
+const CommentLists = ({ confession }: { confession: TConfession }) => {
+	const comments = confession.comments as TComment[];
 
 	return (
 		<div className="max-h-40 scrollbar-hidden hover:scrollbar overflow-y-scroll my-4">

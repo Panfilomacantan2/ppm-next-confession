@@ -18,15 +18,21 @@ dayjs.extend(relativeTime);
 const MyConfessionLists = () => {
 	const { isLoaded, isSignedIn, user } = useUser();
 	const [confessions, setConfessions] = useState<any[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchConfessions = async () => {
 			if (user?.id) {
 				try {
-					const data = await getUserConfessions(user.id);
+					const response = await fetch(`/api/confession/my-confession?id=${user.id}`, { next: { revalidate: 3600 } });
+					const data = await response.json();
+
 					setConfessions(data?.reverse() || []);
+					setLoading(false);
 				} catch (error) {
 					console.error('Failed to fetch confessions', error);
+				} finally {
+					setLoading(false);
 				}
 			}
 		};
@@ -55,7 +61,7 @@ const MyConfessionLists = () => {
 		}
 	};
 
-	if (!isLoaded) return <p>Loading...</p>;
+	if (loading) return <p>Loading...</p>;
 	if (!isSignedIn) return <p>Please sign in to view confessions.</p>;
 
 	return (

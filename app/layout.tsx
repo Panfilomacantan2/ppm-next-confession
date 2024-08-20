@@ -4,8 +4,9 @@ import { Toaster } from '@/components/ui/toaster';
 import NavBar from '@/components/NavBar';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Footer from '@/components/Footer';
-import { ClerkProvider } from '@clerk/nextjs';
+import { ClerkProvider, useUser } from '@clerk/nextjs';
 import './globals.css';
+import ClientLayout from '@/components/ClientLayout';
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -19,10 +20,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<head />
 				<body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-						<NavBar />
-						<main className="min-h-screen flex justify-center items-center">{children}</main>
+						<ClientLayout>
+							<main className="min-h-screen flex justify-center items-center">{children}</main>
+						</ClientLayout>
 						<Toaster />
-						<Footer />
 					</ThemeProvider>
 				</body>
 			</html>

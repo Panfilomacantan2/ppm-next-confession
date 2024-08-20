@@ -2,7 +2,7 @@ import UserWrapper from '@/components/UserWrapper';
 
 const ConfessionPage = ({ params }: { params: { id: string } }) => {
 	return (
-		<section className="min-h-screen w-full flex justify-center items-center py-24">
+		<section className="min-h-screen w-full flex justify-center items-center py-24 px-3">
 			<UserWrapper id={params.id} />
 		</section>
 	);

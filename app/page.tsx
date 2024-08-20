@@ -1,7 +1,4 @@
-// pages/index.tsx or any other server component
-
 import ConfessionList from '@/components/ConfessionList';
-
 interface HomeProps {
 	searchParams: { [key: string]: string };
 }

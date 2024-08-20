@@ -25,8 +25,10 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const fetchedConfessions: TConfession[] = (await getAllConfessions()) as TConfession[];
-				setConfessions(fetchedConfessions.reverse());
+				const response = await fetch('/api/confession', { next: { revalidate: 3600 } });
+				const data = await response.json();
+
+				setConfessions(data);
 
 				setLoading(false);
 			} catch (error) {
@@ -56,12 +58,11 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 
 	if (loading) return 'Loading...';
 
-
 	return (
-		<section className='min-h-screen w-full'>
+		<section className="min-h-screen w-full">
 			<AutoFitLayout>
 				{entries.length > 0 ? (
-					entries.map((confession, idx) => (
+					[...entries].reverse().map((confession, idx) => (
 						<Card key={idx} className="min-w-full h-60 text-center relative py-8 px-4 hover:-translate-y-2 hover:border-blue-400/30">
 							<div className="flex items-center justify-start gap-x-2 ">
 								<div className="h-9 w-9">
