@@ -37,15 +37,7 @@ const MyConfessionLists = () => {
   const deleteConfession = async (id: string) => {
     try {
       await deleteMyConfession(id);
-      await mutate(
-        `/api/my-confession?id=${user?.id}`,
-        async (data) => {
-          return data.filter(
-            (confession: TConfession) => confession._id !== id,
-          );
-        },
-        false,
-      );
+      await mutate(`/api/confession`);
 
       // Add your logic to delete the confession here
       toast({
