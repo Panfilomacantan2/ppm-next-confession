@@ -5,6 +5,7 @@ export type TComment = {
 	author: string;
 	avatar?: string;
 	content: string;
+	createdAt: Date
 };
 
 export type TConfession = {

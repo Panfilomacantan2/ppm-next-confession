@@ -1,8 +1,8 @@
-import MyConfessionLists from '@/components/MyConfessionLists';
-import React from 'react';
+import MyConfessionLists from "@/components/MyConfessionLists";
+import React from "react";
 
 const MyConfession = () => {
-	return <MyConfessionLists />;
+  return <MyConfessionLists />;
 };
 
 export default MyConfession;

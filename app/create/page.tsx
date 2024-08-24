@@ -1,12 +1,12 @@
-import CreateConfessionForm from '@/components/CreateConfession';
-import React from 'react';
+import CreateConfessionForm from "@/components/CreateConfession";
+import React from "react";
 
 const ContactPage = async () => {
-	return (
-		<div className="min-h-screen flex justify-center items-center w-full px-5">
-			<CreateConfessionForm />
-		</div>
-	);
+  return (
+    <div className="flex min-h-screen w-full items-center justify-center px-5">
+      <CreateConfessionForm />
+    </div>
+  );
 };
 
 export default ContactPage;

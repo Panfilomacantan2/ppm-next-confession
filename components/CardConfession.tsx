@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { TConfession } from '@/lib/types';
 import { Card, CardFooter } from './ui/card';
@@ -8,16 +6,9 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import Image from 'next/image';
 import CommentInputForm from './CommentInput';
 import CommentLists from './CommentLists';
-import { useParams } from 'next/navigation';
-import MyConfessionLists from './MyConfessionLists';
-
 dayjs.extend(relativeTime);
 
-const CardConfession = ({ confession, user }: { confession: TConfession; user: string }) => {
-	const { id } = useParams();
-
-	// console.log(confession);
-
+const CardConfession = ({ confession, user, confessionId }: { confession: TConfession; user: any; confessionId: string }) => {
 	return (
 		<Card className="w-full max-w-lg min-h-[260px] text-center relative py-8 px-4  hover:border-blue-400/30">
 			<div className="flex items-center justify-start gap-x-2">
@@ -44,7 +35,7 @@ const CardConfession = ({ confession, user }: { confession: TConfession; user: s
 			<CommentLists confession={confession} />
 
 			<CardFooter className="p-0 flex justify-center items-center">
-				<CommentInputForm user={user} confession={confession} />
+				<CommentInputForm user={user} confession={confession} confessionId={confessionId} />
 			</CardFooter>
 		</Card>
 	);

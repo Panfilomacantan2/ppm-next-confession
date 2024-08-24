@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { toast } from '@/components/ui/use-toast';
 import { Textarea } from './ui/textarea';
-import { addCommentToConfession } from '@/lib/actions/confession.actions';
 import { TConfession } from '@/lib/types';
 import { useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
+import { mutate } from 'swr';
+import { useConfessionSWR } from '@/lib/helper';
 
 const FormSchema = z.object({
 	comment: z.string().min(2, {
@@ -18,7 +19,9 @@ const FormSchema = z.object({
 	}),
 });
 
-export default function CommentInputForm({ user, confession }: { user: string; confession: TConfession }) {
+export default function CommentInputForm({ user, confession, confessionId }: { user: any; confession: TConfession; confessionId: string }) {
+	console.log(confession);
+
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -32,14 +35,14 @@ export default function CommentInputForm({ user, confession }: { user: string; c
 		try {
 			// Add comment to the confession
 			setLoading(true);
-			const addComment = await fetch(`/api/confession/comments/add`, {
+			const addComment = await fetch(`/api/confession/${confessionId}/comments/add`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					_id: confession._id,
-					author: user,
+					_id: confessionId,
+					author: user.fullName,
 					content: content.comment,
 					avatar: confession.avatar,
 				}),
@@ -51,7 +54,7 @@ export default function CommentInputForm({ user, confession }: { user: string; c
 				throw new Error('Failed to add comment');
 			}
 
-			console.log('Comment added successfully');
+			await mutate(`/api/confession/${confessionId}`);
 
 			toast({
 				title: 'Comment added',
@@ -79,7 +82,7 @@ export default function CommentInputForm({ user, confession }: { user: string; c
 					render={({ field }) => (
 						<FormItem>
 							<FormControl>
-								<Textarea placeholder={`Comment as ${user}`} className="w-full" {...field} />
+								<Textarea placeholder={`Comment as ${user.fullName}`} className="w-full" {...field} />
 							</FormControl>
 
 							<FormMessage />

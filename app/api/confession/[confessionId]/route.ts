@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import Confession from '@/lib/models/confessions.model';
 import { connectToDB } from '@/lib/mongoose';
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, { params }: { params: { confessionId: string } }) {
     try {
-        const { searchParams } = new URL(request.url);
-        const confessionId = searchParams.get('confessionId');
+        const confessionId = params.confessionId
 
         if (!confessionId) {
             return NextResponse.json({ error: 'Confession ID is required' }, { status: 400 });
