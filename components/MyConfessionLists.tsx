@@ -21,7 +21,6 @@ dayjs.extend(relativeTime);
 
 export const dynamic = "force-dynamic";
 
-
 const MyConfessionLists = () => {
   const { isLoaded, isSignedIn, user } = useUser();
   const {
@@ -40,15 +39,21 @@ const MyConfessionLists = () => {
   const deleteConfession = async (id: string) => {
     try {
       await deleteMyConfession(id);
-      await mutate(`/api/confession`);
+      await mutate(
+        `/api/my-confession?id=${user?.id}`,
+        async (data) => {
+          return data.filter(
+            (confession: TConfession) => confession._id !== id,
+          );
+        },
+        false,
+      );
 
       // Add your logic to delete the confession here
       toast({
         title: "Confession deleted",
         description: "Your confession has been deleted successfully!",
       });
-
-      // setConfessions((prevConfessions) => prevConfessions.filter((confession) => confession._id !== id));
     } catch (error) {
       toast({
         title: "Error",
