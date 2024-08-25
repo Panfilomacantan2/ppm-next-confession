@@ -18,6 +18,8 @@ interface ConfessionListProps {
 	searchParams: { [key: string]: string };
 }
 
+
+
 export default function ConfessionList({ searchParams }: ConfessionListProps) {
 	const {
 		data: confessions,

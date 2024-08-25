@@ -19,6 +19,9 @@ import { TConfession } from "@/lib/types";
 
 dayjs.extend(relativeTime);
 
+export const dynamic = "force-dynamic";
+
+
 const MyConfessionLists = () => {
   const { isLoaded, isSignedIn, user } = useUser();
   const {
