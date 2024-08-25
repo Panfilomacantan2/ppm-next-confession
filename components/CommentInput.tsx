@@ -20,7 +20,7 @@ const FormSchema = z.object({
 });
 
 export default function CommentInputForm({ user, confession, confessionId }: { user: any; confession: TConfession; confessionId: string }) {
-	console.log(confession);
+	console.log(user);
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -44,7 +44,7 @@ export default function CommentInputForm({ user, confession, confessionId }: { u
 					_id: confessionId,
 					author: user.fullName,
 					content: content.comment,
-					avatar: confession.avatar,
+					avatar: user.imageUrl,
 				}),
 			});
 

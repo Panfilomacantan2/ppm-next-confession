@@ -76,16 +76,14 @@ export default function CreateConfessionForm() {
       // reset the form
       form.reset();
 
+      // Delay the redirection to allow the user to see the toast | redirect to home page
+      router.push("/");
+
       // Show a success toast
       toast({
         title: "Confession Submitted",
         description: "Your confession has been successfully submitted.",
       });
-
-      // Delay the redirection to allow the user to see the toast | redirect to home page
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
     } catch (error) {
       console.log(error);
       loading = false;
