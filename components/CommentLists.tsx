@@ -48,7 +48,7 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
                 {dayjs(comment.createdAt).fromNow(true)}
               </span> */}
             </div>
-            <p className="w-full overflow-hidden break-words text-left text-sm text-foreground/85">
+            <p className="w-full overflow-hidden break-words text-left text-sm text-foreground/80">
               {comment.content}
             </p>
           </div>
