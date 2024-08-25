@@ -35,7 +35,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 	const page = parseInt(searchParams['page']) || 1;
 	const start = (page - 1) * per_page;
 	const end = start + per_page;
-	// const entries = confessions?.slice(start, end);
+	const entries = confessions?.slice(start, end);
 
 	const handleLikeConfession = async (id: string) => {
 		try {
@@ -61,11 +61,11 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 	if (!confessions.length) return <p>No confessions found.</p>;
 
 	return (
-		<section className="min-h-screen w-full py-24">
+		<section className="min-h-screen w-full py-28">
 			<h2 className="px-5 lg:px-20">All Confessions</h2>
 
-			<AutoFitLayout>
-				{confessions.map((confession: TConfession, idx: number) => (
+			<AutoFitLayout className="lg:py-10">
+				{entries.map((confession: TConfession, idx: number) => (
 					<Card key={idx} className="min-w-full h-60 text-center relative py-8 px-4 hover:-translate-y-2 hover:border-blue-400/30">
 						<div className="flex items-center justify-start gap-x-2 ">
 							<div className="h-9 w-9">
@@ -82,7 +82,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 
 							<div className="flex flex-col justify-start items-centers">
 								<p className="text-xs text-foreground text-left">{confession.author}</p>
-								<p className="text-xs text-foreground/60 text-left">{dayjs(confession.createdAt).fromNow(true)}</p>
+								<p className="text-xs text-foreground/60 text-left">{dayjs(confession.createdAt).fromNow()}</p>
 							</div>
 						</div>
 

@@ -70,7 +70,7 @@ const MyConfessionLists = () => {
     <section className="min-h-screen w-full py-28">
       <h2 className="px-5 lg:px-20">My Confessions</h2>
 
-      <AutoFitLayout>
+      <AutoFitLayout className="lg:py-10">
         {confessions.map((confession: any) => (
           <Card
             key={confession._id}
