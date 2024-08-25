@@ -95,16 +95,14 @@ export default function EditDialog({
         throw new Error("Failed to update confession");
       }
 
-      await mutate(`/api/my-confession?id=${user?.id}`);
-      setOpen(false);            
-      setLoading(false);
-
-      form.reset();
-
       toast({
         title: "Confession Updated",
         description: "Your confession has been successfully updated.",
       });
+
+      await mutate(`/api/my-confession?id=${user?.id}`);
+      setOpen(false);
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -154,12 +152,12 @@ export default function EditDialog({
                             value={
                               confession.author !== "Anonymous"
                                 ? confession.author
-                                : user?.fullName ?? "Anonymous"
+                                : (user?.fullName ?? "Anonymous")
                             }
                           >
                             {confession.author !== "Anonymous"
                               ? confession.author
-                              : user?.fullName ?? "Anonymous"}
+                              : (user?.fullName ?? "Anonymous")}
                           </SelectItem>
 
                           {/* Always render the "Anonymous" option */}
