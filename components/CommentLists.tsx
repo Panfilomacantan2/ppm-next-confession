@@ -43,12 +43,12 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
           </div>
           <div className="max-w-full rounded-md border border-border p-2">
             <div className="flex flex-col items-start justify-start">
-              <p className="text-sm text-foreground/80">{comment.author}</p>
-              <span className="text-[11px] text-foreground/60">
+              <p className="text-sm text-foreground capitalize">{comment.author}</p>
+              {/* <span className="text-[11px] text-foreground/60">
                 {dayjs(comment.createdAt).fromNow(true)}
-              </span>
+              </span> */}
             </div>
-            <p className="w-full overflow-hidden break-words text-left text-sm text-foreground/90">
+            <p className="w-full overflow-hidden break-words text-left text-sm text-foreground/80">
               {comment.content}
             </p>
           </div>
