@@ -48,7 +48,7 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
           </div>
           <div className="max-w-full rounded-md border border-border p-2">
             <div className="flex flex-col items-start justify-start">
-              <p className="text-sm capitalize text-foreground">
+              <p className="text-sm capitalize text-foreground font-medium">
                 {comment.author}
               </p>
               {/* Uncomment the below line if you want to show relative time */}
