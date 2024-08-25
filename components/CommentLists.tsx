@@ -2,40 +2,45 @@ import { TComment, TConfession } from "@/lib/types";
 import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 dayjs.extend(relativeTime);
 
 const CommentLists = ({ confession }: { confession: TConfession }) => {
-  const latestCommentRef = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLDivElement>(null);
 
-  if (latestCommentRef.current) {
-    latestCommentRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-    });
-  }
+  useEffect(() => {
+    const scrollToBottom = () => {
+      const currentContainer = container.current;
+      if (currentContainer) {
+        currentContainer.scrollTop = currentContainer.scrollHeight;
+      }
+    };
 
-  if(!confession.comments.length) return <p className="py-5">No confession found.</p>
+    scrollToBottom(); // Scroll to the bottom whenever the comments change
+  }, [confession.comments.length]);
+
+  if (!confession.comments.length)
+    return <p className="py-5">No confession found.</p>;
 
   return (
-    <div className="scrollbar-hidden hover:scrollbar my-4 max-h-40 overflow-x-hidden overflow-y-scroll">
-      {confession.comments.map((comment: TComment, index: number) => (
+    <div
+      className="scrollbar-hidden hover:scrollbar my-4 max-h-40 overflow-x-hidden overflow-y-scroll"
+      ref={container}
+    >
+      {confession.comments.map((comment: TComment) => (
         <div
           key={comment._id}
           className="flex w-full items-start space-x-3 p-4 pb-0"
-          ref={
-            index === confession.comments.length - 1 ? latestCommentRef : null
-          }
         >
-          <div className="flex-shrink-0 h-9 w-9">
+          <div className="h-9 w-9 flex-shrink-0">
             {comment.avatar ? (
               <Image
                 src={comment.avatar}
                 alt={comment.author}
                 width={35}
                 height={35}
-                className="rounded-full w-full h-full object-cover"
+                className="h-full w-full rounded-full object-cover"
               />
             ) : (
               <div className="h-5 w-5 rounded-full bg-gray-300"></div>
@@ -43,7 +48,10 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
           </div>
           <div className="max-w-full rounded-md border border-border p-2">
             <div className="flex flex-col items-start justify-start">
-              <p className="text-sm text-foreground capitalize">{comment.author}</p>
+              <p className="text-sm capitalize text-foreground">
+                {comment.author}
+              </p>
+              {/* Uncomment the below line if you want to show relative time */}
               {/* <span className="text-[11px] text-foreground/60">
                 {dayjs(comment.createdAt).fromNow(true)}
               </span> */}
