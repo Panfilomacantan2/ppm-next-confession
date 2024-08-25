@@ -1,32 +1,32 @@
-import { Facebook, Github, Linkedin, Mail } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react';
+import { Facebook, Github, Linkedin, Mail } from "lucide-react";
+import Link from "next/link";
+import React from "react";
 
 const Footer = () => {
-	return (
-		<footer className="container flex flex-col lg:flex-row justify-between items-start lg:items-center py-5 text-sm">
-			<div className="flex flex-col  lg:flex-row lg:space-x-10">
-				<p>© {new Date().getFullYear()} panfilo.dev</p>
-				<p>All Rights Reserved</p>
-				<p>Panfilo Panong Macantan</p>
-			</div>
+  return (
+    <footer className="container flex flex-col items-start justify-between py-5 text-sm lg:flex-row lg:items-center">
+      <div className="flex flex-col lg:flex-row lg:space-x-10">
+        <p>© {new Date().getFullYear()} panfilo.dev</p>
+        <p>All Rights Reserved</p>
+        <p>Panfilo Panong Macantan</p>
+      </div>
 
-			<div className="flex my-4 space-x-4 ">
-				<Link href="/" className="cursor-pointer text-lg" target="_blank">
-					<Github />
-				</Link>
-				<Link href="/" className="cursor-pointer text-lg" target="_blank">
-					<Linkedin />
-				</Link>
-				<Link href="/" className="cursor-pointer text-lg" target="_blank">
-					<Facebook />
-				</Link>
-				<Link href="/" className="cursor-pointer text-lg" target="_blank">
-					<Mail />
-				</Link>
-			</div>
-		</footer>
-	);
+      <div className="my-4 flex space-x-4">
+        <Link href="/" className="cursor-pointer text-zinc-300" target="_blank">
+          <Github size={20} />
+        </Link>
+        <Link href="/" className="cursor-pointer text-zinc-300" target="_blank">
+          <Linkedin size={20} />
+        </Link>
+        <Link href="/" className="cursor-pointer text-zinc-300" target="_blank">
+          <Facebook size={20} />
+        </Link>
+        <Link href="/" className="cursor-pointer text-zinc-300" target="_blank">
+          <Mail size={20} />
+        </Link>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

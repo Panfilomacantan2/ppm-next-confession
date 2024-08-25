@@ -16,6 +16,8 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
     });
   }
 
+  if(!confession.comments.length) return <p className="py-5">No confession found.</p>
+
   return (
     <div className="scrollbar-hidden hover:scrollbar my-4 max-h-40 overflow-x-hidden overflow-y-scroll">
       {confession.comments.map((comment: TComment, index: number) => (
