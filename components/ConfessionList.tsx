@@ -93,7 +93,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
               </div>
 
               <div className="items-centers flex flex-col justify-start">
-                <p className="text-left text-xs text-foreground capitalize">
+                <p className="text-left text-xs capitalize text-foreground">
                   {confession.author}
                 </p>
                 <p className="text-left text-xs text-foreground/60">
