@@ -16,6 +16,8 @@ import EditDialog from "./EditDialog";
 import { useConfessionSWR } from "@/lib/helper";
 import { mutate } from "swr";
 import { TConfession } from "@/lib/types";
+import Loading from "./Loading";
+import ConfessionContent from "./ConfessionContent";
 
 dayjs.extend(relativeTime);
 
@@ -63,7 +65,7 @@ const MyConfessionLists = () => {
   };
 
   if (!isSignedIn) return <p>Please sign in to view confessions.</p>;
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (!confessions.length) return <p>No confessions found.</p>;
 
   return (
@@ -74,7 +76,7 @@ const MyConfessionLists = () => {
         {confessions.map((confession: any) => (
           <Card
             key={confession._id}
-            className="relative h-60 min-w-full px-4 py-8 text-center hover:-translate-y-2 hover:border-blue-400/30"
+            className="relative h-64 min-w-full px-4 py-8 text-center hover:-translate-y-[2px] hover:border-blue-400/30"
           >
             <div className="flex items-center justify-start gap-x-2">
               <div className="h-9 w-9">
@@ -106,7 +108,10 @@ const MyConfessionLists = () => {
             </div>
 
             <p className="my-5 text-left text-[14px] text-foreground/80">
-              {confession?.content}
+              <ConfessionContent
+                content={confession.content}
+                id={confession._id}
+              />
             </p>
 
             <CardFooter className="absolute bottom-4 right-4 justify-end p-0">

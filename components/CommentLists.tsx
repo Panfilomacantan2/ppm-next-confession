@@ -3,6 +3,7 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useRef } from "react";
+import { MessagesSquare } from "lucide-react";
 
 dayjs.extend(relativeTime);
 
@@ -21,7 +22,13 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
   }, [confession.comments.length]);
 
   if (!confession.comments.length)
-    return <p className="py-5">No confession found.</p>;
+    return (
+      <div className="py-5 flex justify-center items-center flex-col">
+         <MessagesSquare className="text-foreground/85"/>
+        <p className="text-[14px] font-medium text-foreground/90">No confessions yet</p>
+        <p className="text-[14px] font-light text-foreground/70">Be the first to comment.</p>
+      </div>
+    );
 
   return (
     <div
@@ -48,7 +55,7 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
           </div>
           <div className="max-w-full rounded-md border border-border p-2">
             <div className="flex flex-col items-start justify-start">
-              <p className="text-sm capitalize text-foreground font-medium">
+              <p className="text-sm font-medium capitalize text-foreground">
                 {comment.author}
               </p>
               {/* Uncomment the below line if you want to show relative time */}

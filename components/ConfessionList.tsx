@@ -9,9 +9,11 @@ import CommentButton from "@/components/CommentButton";
 import AutoFitLayout from "@/components/AutoFitLayout";
 import PaginationComponent from "@/components/Pagination";
 import { TConfession } from "@/lib/types";
-import { useConfessionSWR } from "@/lib/helper";
+import {  useConfessionSWR } from "@/lib/helper";
 import { mutate } from "swr";
 import { useUser } from "@clerk/nextjs";
+import Loading from "./Loading";
+import ConfessionContent from "./ConfessionContent";
 
 dayjs.extend(relativeTime);
 
@@ -67,9 +69,10 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
+
   if (error) return <p>Failed to load confessions.</p>;
-  if (!confessions?.length) return <p>No confessions found.</p>;
+  if (!confessions?.length) return <p>No confessions yet</p>;
 
   return (
     <section className="min-h-screen w-full py-28">
@@ -79,7 +82,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
         {entries.map((confession: TConfession, idx: number) => (
           <Card
             key={idx}
-            className="relative h-60 min-w-full px-4 py-8 text-center hover:-translate-y-2 hover:border-blue-400/30"
+            className="relative h-64 min-w-full px-4 py-8 text-center hover:-translate-y-[2px] hover:border-blue-400/30"
           >
             <div className="flex items-center justify-start gap-x-2">
               <div className="h-9 w-9">
@@ -111,7 +114,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
             </div>
 
             <p className="my-5 text-left text-[14px] text-foreground/80">
-              {confession.content || "No content available."}
+                <ConfessionContent content={confession.content} id={confession._id} />
             </p>
 
             <CardFooter className="absolute bottom-4 right-4 justify-end gap-x-4 p-0">

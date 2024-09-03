@@ -1,6 +1,7 @@
 "use client";
 
 import CardConfession from "@/components/CardConfession";
+import Loading from "@/components/Loading";
 import { useConfessionSWR } from "@/lib/helper";
 import { useUser } from "@clerk/nextjs";
 
@@ -15,7 +16,7 @@ const ConfessionPage = ({ params }: { params: { id: string } }) => {
   console.log(confessions);
 
   // Loading state
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
 
   // Error handling
   if (error) return <p>Failed to load confession: {error.message}</p>;

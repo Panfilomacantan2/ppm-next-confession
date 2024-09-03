@@ -30,7 +30,7 @@ const CardConfession = ({ confession, user, confessionId }: { confession: TConfe
 				</div>
 			</div>
 
-			<p className="text-foreground my-5 text-left text-[14px]">{confession.content}</p>
+			<p className="text-foreground min-h-20 my-5 text-left text-[14px]">{confession.content}</p>
 
 			<CommentLists confession={confession} />
 

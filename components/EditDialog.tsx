@@ -121,7 +121,7 @@ export default function EditDialog({
         <DialogHeader>
           <DialogTitle>Edit Confession</DialogTitle>
           <DialogDescription>
-            Make changes to your Confession here. Click save when you&apos;re
+            Make changes to your Confession here. Click update when you&apos;re
             done.
           </DialogDescription>
         </DialogHeader>
@@ -200,7 +200,7 @@ export default function EditDialog({
                 {loading ? (
                   <div className="flex items-center">
                     <LoaderCircle size={18} className="animate-spin" />
-                    <span className="ml-1">Updating</span>
+                    <span className="ml-1">Updating...</span>
                   </div>
                 ) : (
                   "Update"
