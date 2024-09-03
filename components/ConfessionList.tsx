@@ -11,6 +11,7 @@ import PaginationComponent from "@/components/Pagination";
 import { TConfession } from "@/lib/types";
 import { useConfessionSWR } from "@/lib/helper";
 import { mutate } from "swr";
+import { useUser } from "@clerk/nextjs";
 
 dayjs.extend(relativeTime);
 
@@ -19,6 +20,7 @@ interface ConfessionListProps {
 }
 
 export default function ConfessionList({ searchParams }: ConfessionListProps) {
+  const { user } = useUser();
   const {
     data: confessions,
     error,
@@ -30,7 +32,6 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
           dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix(),
       );
     },
-
     refreshInterval: 1000,
   });
 
@@ -41,16 +42,22 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
   const entries = confessions?.slice(start, end);
 
   const handleLikeConfession = async (id: string) => {
+    if (!user?.id) {
+      console.error("User is not logged in.");
+      return;
+    }
+
     try {
       const response = await fetch(`/api/like`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ confessionId: id, userId: user.id }),
       });
 
-      console.log(await response.json());
+      const result = await response.json();
+      console.log(result);
 
       if (!response.ok) throw new Error("Failed to like the confession.");
 
@@ -61,7 +68,8 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
   };
 
   if (isLoading) return <p>Loading...</p>;
-  if (!confessions.length) return <p>No confessions found.</p>;
+  if (error) return <p>Failed to load confessions.</p>;
+  if (!confessions?.length) return <p>No confessions found.</p>;
 
   return (
     <section className="min-h-screen w-full py-28">
@@ -85,7 +93,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
                       src={confession.avatar}
                       width={22}
                       height={22}
-                      alt={confession.author}
+                      alt={confession.author || "Confession author"}
                       className="h-full w-full object-cover"
                     />
                   </div>
@@ -94,7 +102,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 
               <div className="items-centers flex flex-col justify-start">
                 <p className="text-left text-xs capitalize text-foreground">
-                  {confession.author}
+                  {confession.author || "Anonymous"}
                 </p>
                 <p className="text-left text-xs text-foreground/60">
                   {dayjs(confession.createdAt).fromNow()}
@@ -103,14 +111,14 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
             </div>
 
             <p className="my-5 text-left text-[14px] text-foreground/80">
-              {confession.content}
+              {confession.content || "No content available."}
             </p>
 
             <CardFooter className="absolute bottom-4 right-4 justify-end gap-x-4 p-0">
               <CommentButton confession={confession} />
               <LikeButton
                 confession={confession}
-                onClick={() => handleLikeConfession(confession?._id)}
+                onClick={() => handleLikeConfession(confession._id)}
               />
             </CardFooter>
           </Card>

@@ -6,5 +6,9 @@ interface HomeProps {
 export const dynamic = "force-dynamic";
 
 export default function Home({ searchParams }: HomeProps) {
-  return <ConfessionList searchParams={searchParams} />;
+  return (
+    <>
+      <ConfessionList searchParams={searchParams} />;
+    </>
+  );
 }

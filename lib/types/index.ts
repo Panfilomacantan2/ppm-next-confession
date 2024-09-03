@@ -13,7 +13,7 @@ export type TConfession = {
 	content: string;
 	author: string;
 	avatar: string;
-	likes: number;
+	likes: string[];
 	createdAt: string;
 	comments: TComment[];
 };
