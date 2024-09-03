@@ -58,8 +58,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
         body: JSON.stringify({ confessionId: id, userId: user.id }),
       });
 
-      const result = await response.json();
-      console.log(result);
+    
 
       if (!response.ok) throw new Error("Failed to like the confession.");
 

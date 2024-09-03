@@ -36,7 +36,7 @@ export default function CommentInputForm({
   confession: TConfession;
   confessionId: string;
 }) {
-  console.log(user);
+//   console.log(user);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
