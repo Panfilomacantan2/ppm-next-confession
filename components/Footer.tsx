@@ -12,16 +12,32 @@ const Footer = () => {
       </div>
 
       <div className="my-4 flex space-x-4">
-        <Link href="/" className="cursor-pointer text-foreground/80" target="_blank">
+        <Link
+          href="https://github.com/Panfilomacantan2"
+          className="cursor-pointer text-foreground/80"
+          target="_blank"
+        >
           <Github size={20} />
         </Link>
-        <Link href="/" className="cursor-pointer text-foreground/80" target="_blank">
+        <Link
+          href="https://www.linkedin.com/in/panfilo-panong-macantan/"
+          className="cursor-pointer text-foreground/80"
+          target="_blank"
+        >
           <Linkedin size={20} />
         </Link>
-        <Link href="/" className="cursor-pointer text-foreground/80" target="_blank">
+        <Link
+          href="https://www.facebook.com/panfilo.macantan/"
+          className="cursor-pointer text-foreground/80"
+          target="_blank"
+        >
           <Facebook size={20} />
         </Link>
-        <Link href="/" className="cursor-pointer text-foreground/80" target="_blank">
+        <Link
+          href="mailto:panfilomacantan.pm@gmail.com"
+          className="cursor-pointer text-foreground/80"
+          target="_blank"
+        >
           <Mail size={20} />
         </Link>
       </div>

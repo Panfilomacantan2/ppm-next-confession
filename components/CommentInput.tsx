@@ -104,7 +104,7 @@ export default function CommentInputForm({
               <FormControl>
                 <Textarea
                   placeholder={`Comment as ${user.fullName}`}
-                  className="w-full border border-border"
+                  className="w-full capitalize border border-border"
                   {...field}
                 />
               </FormControl>

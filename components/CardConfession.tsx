@@ -21,10 +21,6 @@ const CardConfession = ({
   confessionId: string;
 }) => {
   const handleLikeConfession = async (id: string) => {
-    if (!user?.id) {
-      console.error("User is not logged in.");
-      return;
-    }
 
     try {
       const response = await fetch(`/api/like`, {
@@ -34,10 +30,10 @@ const CardConfession = ({
         },
         body: JSON.stringify({ confessionId: id, userId: user.id }),
       });
+      await mutate(`/api/confession`);
 
       if (!response.ok) throw new Error("Failed to like the confession.");
 
-      await mutate(`/api/confession`);
     } catch (error) {
       console.error("Failed to like confession:", error);
     }
