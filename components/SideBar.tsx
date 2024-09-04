@@ -7,6 +7,7 @@ import { LogOut, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CornerDownRight, CirclePlus, MessageCircleMore } from 'lucide-react';
+import SignOutButton from './SignOutButton';
 
 export function SideBar() {
 	const pathname = usePathname();
@@ -65,9 +66,7 @@ export function SideBar() {
 
 				<SheetFooter className="bottom-5 right-5 absolute">
 					<SheetClose asChild>
-						<div className="cursor-pointer rounded-full bg-background p-2 flex items-center justify-center gap-x-2 text-foreground/80">
-							Logout <LogOut size={18} />
-						</div>
+						<SignOutButton/>
 					</SheetClose>
 				</SheetFooter>
 			</SheetContent>

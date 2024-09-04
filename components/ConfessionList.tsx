@@ -9,11 +9,12 @@ import CommentButton from "@/components/CommentButton";
 import AutoFitLayout from "@/components/AutoFitLayout";
 import PaginationComponent from "@/components/Pagination";
 import { TConfession } from "@/lib/types";
-import {  useConfessionSWR } from "@/lib/helper";
+import { useConfessionSWR } from "@/lib/helper";
 import { mutate } from "swr";
 import { useUser } from "@clerk/nextjs";
 import Loading from "./Loading";
 import ConfessionContent from "./ConfessionContent";
+import EmptyConfession from "./EmptyConfession";
 
 dayjs.extend(relativeTime);
 
@@ -58,8 +59,6 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
         body: JSON.stringify({ confessionId: id, userId: user.id }),
       });
 
-    
-
       if (!response.ok) throw new Error("Failed to like the confession.");
 
       await mutate(`/api/confession`);
@@ -71,8 +70,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
   if (isLoading) return <Loading />;
 
   if (error) return <p>Failed to load confessions.</p>;
-  if (!confessions?.length) return <p>No confessions yet</p>;
-
+  if (!confessions?.length) return <EmptyConfession />;
   return (
     <section className="min-h-screen w-full py-28">
       <h2 className="px-5 lg:px-20">All Confessions</h2>
@@ -113,7 +111,10 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
             </div>
 
             <p className="my-5 text-left text-[14px] text-foreground/80">
-                <ConfessionContent content={confession.content} id={confession._id} />
+              <ConfessionContent
+                content={confession.content}
+                id={confession._id}
+              />
             </p>
 
             <CardFooter className="absolute bottom-4 right-4 justify-end gap-x-4 p-0">
@@ -126,6 +127,8 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
           </Card>
         ))}
       </AutoFitLayout>
+
+      {/* Pagination */}
       <PaginationComponent
         pageSize={per_page}
         currentPage={page}

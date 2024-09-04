@@ -13,7 +13,9 @@ const ConfessionPage = ({ params }: { params: { id: string } }) => {
     isLoading,
   } = useConfessionSWR(`/api/confession/${params.id}`);
 
-  console.log(confessions);
+  // console.log(confessions);
+
+// !todo: add functionality to logout in sidebar
 
   // Loading state
   if (isLoading) return <Loading />;

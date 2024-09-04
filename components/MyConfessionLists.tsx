@@ -2,7 +2,6 @@
 
 import {
   deleteMyConfession,
-  getUserConfessions,
 } from "@/lib/actions/confession.actions";
 import { useUser } from "@clerk/nextjs";
 import { Card, CardFooter } from "./ui/card";
@@ -18,6 +17,7 @@ import { mutate } from "swr";
 import { TConfession } from "@/lib/types";
 import Loading from "./Loading";
 import ConfessionContent from "./ConfessionContent";
+import EmptyConfession from "./EmptyConfession";
 
 dayjs.extend(relativeTime);
 
@@ -66,7 +66,7 @@ const MyConfessionLists = () => {
 
   if (!isSignedIn) return <p>Please sign in to view confessions.</p>;
   if (isLoading) return <Loading />;
-  if (!confessions.length) return <p>No confessions found.</p>;
+  if (!confessions.length) return <EmptyConfession/>
 
   return (
     <section className="min-h-screen w-full py-28">
