@@ -160,6 +160,20 @@ export default function EditDialog({
                               : (user?.fullName ?? "Anonymous")}
                           </SelectItem>
 
+                          <SelectItem
+                            value={
+                              confession.author ===
+                              (user?.username ?? "Anonymous")
+                                ? (user?.fullName ?? "Anonymous")
+                                : (user?.username ?? "Anonymous")
+                            }
+                          >
+                            {confession.author ===
+                            (user?.username ?? "Anonymous")
+                              ? (user?.fullName ?? "Anonymous")
+                              : (user?.username ?? "Anonymous")}
+                          </SelectItem>
+
                           {/* Always render the "Anonymous" option */}
                           <SelectItem value="Anonymous">Anonymous</SelectItem>
                         </SelectContent>

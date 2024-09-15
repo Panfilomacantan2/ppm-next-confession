@@ -10,7 +10,7 @@ const LikeButton = ({
   onClick,
 }: {
   confession: TConfession;
-  onClick: (id: string) => void;
+  onClick: () => void;
 }) => {
   const { user } = useUser();
   return (
@@ -20,11 +20,7 @@ const LikeButton = ({
         className={cn("cursor-pointer", {
           "text-blue-700": user && confession?.likes.includes(user.id),
         })}
-        onClick={() => {
-          if (confession?._id) {
-            onClick(confession?._id);
-          }
-        }}
+        onClick={onClick}
       />
 
       <p className="mt-[6px] text-xs text-foreground/90">

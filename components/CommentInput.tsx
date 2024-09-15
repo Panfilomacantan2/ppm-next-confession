@@ -23,7 +23,7 @@ import { useConfessionSWR } from "@/lib/helper";
 
 const FormSchema = z.object({
   comment: z.string().min(2, {
-    message: "Comment must be at least 2 characters.",
+    message: "Comment connot be empty.",
   }),
 });
 
@@ -104,7 +104,7 @@ export default function CommentInputForm({
               <FormControl>
                 <Textarea
                   placeholder={`Comment as ${user.fullName}`}
-                  className="w-full capitalize border border-border"
+                  className="w-full border border-border capitalize"
                   {...field}
                 />
               </FormControl>

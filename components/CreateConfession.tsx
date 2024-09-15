@@ -124,6 +124,10 @@ export default function CreateConfessionForm() {
                           <SelectItem value={user?.fullName ?? " "}>
                             {user?.fullName ?? "Anonymous"}
                           </SelectItem>
+
+                          <SelectItem value={user?.username ?? " "}>
+                            {user?.username ?? "Anonymous"}
+                          </SelectItem>
                         </SelectContent>
                       </Select>
 

@@ -60,10 +60,61 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
       });
 
       if (!response.ok) throw new Error("Failed to like the confession.");
-
-      await mutate(`/api/confession`);
     } catch (error) {
       console.error("Failed to like confession:", error);
+    }
+  };
+
+  // Handle the click event for liking or unliking a confession
+  const handleClick = async (confession: TConfession) => {
+    try {
+      // ts-ignore
+      await mutate(
+        "/api/confession",
+        async (currentData: TConfession[] | undefined) => {
+          if (!currentData) return []; // Handle undefined data gracefully
+
+          const isLiked = user && confession.likes.includes(user?.id);
+
+          const updatedConfessions = currentData.map((item) => {
+            if (item._id === confession._id) {
+              return {
+                ...item,
+                likes: isLiked
+                  ? item.likes.filter((id) => id !== user?.id) // Remove like
+                  : [...item.likes, user?.id], // Add like
+              };
+            }
+            return item;
+          });
+
+          await handleLikeConfession(confession._id);
+
+          return updatedConfessions;
+        },
+        {
+          optimisticData: (currentData: TConfession[] | undefined) => {
+            if (!currentData) return []; // Handle undefined data gracefully
+
+            return currentData.map((item) => {
+              if (item._id === confession._id) {
+                const isLiked = user && item.likes.includes(user?.id);
+                return {
+                  ...item,
+                  likes: isLiked
+                    ? item.likes.filter((id) => id !== user?.id)
+                    : [...item.likes, user?.id],
+                };
+              }
+              return item;
+            });
+          },
+          rollbackOnError: true,
+          revalidate: false,
+        },
+      );
+    } catch (error) {
+      console.error("Error during optimistic update:", error);
     }
   };
 
@@ -121,7 +172,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
               <CommentButton confession={confession} />
               <LikeButton
                 confession={confession}
-                onClick={() => handleLikeConfession(confession._id)}
+                onClick={() => handleClick(confession)}
               />
             </CardFooter>
           </Card>
