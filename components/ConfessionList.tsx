@@ -111,7 +111,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
           },
           rollbackOnError: true,
           revalidate: false,
-        }
+        },
       );
     } catch (error) {
       console.error("Error during optimistic update:", error);
@@ -122,6 +122,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 
   if (error) return <p>Failed to load confessions.</p>;
   if (!confessions?.length) return <EmptyConfession />;
+  console.log(confessions);
 
   return (
     <section className="min-h-screen w-full py-28">
@@ -156,6 +157,11 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
                 <p className="text-left text-xs capitalize text-foreground">
                   {confession.author || "Anonymous"}
                 </p>
+
+                <p className="text-left text-xs text-foreground/80">
+                  -is feeling {confession.feeling ?? "😊 Happy"}
+                </p>
+
                 <p className="text-left text-xs text-foreground/60">
                   {dayjs(confession.createdAt).fromNow()}
                 </p>

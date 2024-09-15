@@ -15,5 +15,6 @@ export type TConfession = {
 	avatar: string;
 	likes: string[];
 	createdAt: string;
+	feeling: string;
 	comments: TComment[];
 };

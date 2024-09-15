@@ -34,9 +34,13 @@ import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "./ui/use-toast";
 import { mutate } from "swr";
+import { feelings } from "@/constants";
 
 const formSchema = z.object({
-  content: z.string().min(2, {
+  feeling: z.string().min(1, {
+    message: "This cannot be empty!",
+  }),
+  content: z.string().min(1, {
     message: "This cannot be empty!",
   }),
 
@@ -57,6 +61,7 @@ export default function CreateConfessionForm() {
     defaultValues: {
       content: "",
       author: "Anonymous",
+      feeling: "",
     },
   });
 
@@ -66,6 +71,8 @@ export default function CreateConfessionForm() {
       ...values,
       avatar: user?.imageUrl,
     };
+
+    console.log(confessionData);
 
     try {
       loading = true;
@@ -104,6 +111,44 @@ export default function CreateConfessionForm() {
               <>
                 <FormField
                   control={form.control}
+                  name="feeling"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Feelings</FormLabel>
+
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="How are you feeling?" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {feelings.map(
+                            (feeling: { name: string; emoji: string }) => {
+                              return (
+                                <SelectItem
+                                  value={`${feeling.emoji} ${feeling.name}`}
+                                  key={feeling.name}
+                                >
+                                  {feeling.emoji} {feeling.name}
+                                </SelectItem>
+                              );
+                            },
+                          )}
+                        </SelectContent>
+                      </Select>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Author */}
+                <FormField
+                  control={form.control}
                   name="author"
                   render={({ field }) => (
                     <FormItem>
@@ -135,6 +180,8 @@ export default function CreateConfessionForm() {
                     </FormItem>
                   )}
                 />
+
+                {/* Confession */}
                 <FormField
                   control={form.control}
                   name="content"

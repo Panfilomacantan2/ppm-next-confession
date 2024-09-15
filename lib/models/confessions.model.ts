@@ -19,6 +19,9 @@ const confessionSchema = new Schema({
     type: String,
     required: false,
   },
+  feeling: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
