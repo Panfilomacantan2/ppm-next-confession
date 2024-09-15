@@ -1,8 +1,6 @@
 "use client";
 
-import {
-  deleteMyConfession,
-} from "@/lib/actions/confession.actions";
+import { deleteMyConfession } from "@/lib/actions/confession.actions";
 import { useUser } from "@clerk/nextjs";
 import { Card, CardFooter } from "./ui/card";
 import Image from "next/image";
@@ -66,7 +64,7 @@ const MyConfessionLists = () => {
 
   if (!isSignedIn) return <p>Please sign in to view confessions.</p>;
   if (isLoading) return <Loading />;
-  if (!confessions.length) return <EmptyConfession/>
+  if (!confessions.length) return <EmptyConfession />;
 
   return (
     <section className="min-h-screen w-full py-28">
@@ -97,9 +95,12 @@ const MyConfessionLists = () => {
                 )}
               </div>
 
-              <div className="flex flex-col items-center justify-start">
+              <div className="flex flex-col items-start justify-start">
                 <p className="text-left text-xs text-foreground">
                   {confession?.author}
+                </p>
+                <p className="text-left text-xs text-foreground/80">
+                  -is feeling {confession.feeling ?? "😊 Happy"}
                 </p>
                 <p className="text-left text-xs text-foreground/60">
                   {dayjs(confession?.createdAt).fromNow()}

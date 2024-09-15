@@ -38,9 +38,14 @@ import { toast } from "./ui/use-toast";
 import { useEffect, useState } from "react";
 import { TComment, TConfession } from "@/lib/types";
 import { mutate } from "swr";
+import { feelings } from "@/constants";
 
 const formSchema = z.object({
-  content: z.string().min(2, {
+  feeling: z.string().min(1, {
+    message: "This cannot be empty.",
+  }),
+
+  content: z.string().min(1, {
     message: "This cannot be empty.",
   }),
   author: z.string({
@@ -65,6 +70,7 @@ export default function EditDialog({
     defaultValues: {
       content: confession.content, // Set initial content
       author: confession.author, // Set initial author
+      feeling: confession.feeling,
     },
   });
 
@@ -130,6 +136,44 @@ export default function EditDialog({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             {isLoaded ? (
               <>
+                {/* Feelings */}
+                <FormField
+                  control={form.control}
+                  name="feeling"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Feelings</FormLabel>
+                      <Select
+                        onValueChange={field.onChange} // Update the field's value
+                        value={field.value} // Bind the selected value to the field's value
+                        defaultValue={confession.author} // Set the default value
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Author" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {feelings.map(
+                            (feeling: { name: string; emoji: string }) => {
+                              return (
+                                <SelectItem
+                                  value={`${feeling.emoji} ${feeling.name}`}
+                                  key={feeling.name}
+                                >
+                                  {feeling.emoji} {feeling.name}
+                                </SelectItem>
+                              );
+                            },
+                          )}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Author */}
                 <FormField
                   control={form.control}
                   name="author"
@@ -182,6 +226,8 @@ export default function EditDialog({
                     </FormItem>
                   )}
                 />
+
+                {/* Confession */}
 
                 <FormField
                   control={form.control}

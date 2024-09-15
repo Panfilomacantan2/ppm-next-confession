@@ -25,6 +25,7 @@ export async function PATCH(request: Request, { params }: { params: { updateId: 
 		confession.content = body.content;
 		confession.author = body.author;
 		confession.avatar = body.avatar;
+		confession.feeling = body.feeling
 		await confession.save();
 
 		// Respond with the updated confession data immediately
