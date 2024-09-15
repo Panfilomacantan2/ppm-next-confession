@@ -29,7 +29,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
     error,
     isLoading,
   } = useConfessionSWR("/api/confession", {
-    onSuccess: (data: any) => {
+    onSuccess: (data: TConfession[]) => {
       data.sort(
         (a: TConfession, b: TConfession) =>
           dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix(),
@@ -65,24 +65,24 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
     }
   };
 
-  // Handle the click event for liking or unliking a confession
   const handleClick = async (confession: TConfession) => {
+    if (!user?.id) return;
+
     try {
-      // ts-ignore
       await mutate(
         "/api/confession",
         async (currentData: TConfession[] | undefined) => {
-          if (!currentData) return []; // Handle undefined data gracefully
+          if (!currentData) return [];
 
-          const isLiked = user && confession.likes.includes(user?.id);
+          const isLiked = confession.likes.includes(user.id);
 
           const updatedConfessions = currentData.map((item) => {
             if (item._id === confession._id) {
               return {
                 ...item,
                 likes: isLiked
-                  ? item.likes.filter((id) => id !== user?.id) // Remove like
-                  : [...item.likes, user?.id], // Add like
+                  ? item.likes.filter((id) => id !== user.id)
+                  : [...item.likes, user.id],
               };
             }
             return item;
@@ -94,16 +94,16 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
         },
         {
           optimisticData: (currentData: TConfession[] | undefined) => {
-            if (!currentData) return []; // Handle undefined data gracefully
+            if (!currentData) return [];
 
             return currentData.map((item) => {
               if (item._id === confession._id) {
-                const isLiked = user && item.likes.includes(user?.id);
+                const isLiked = item.likes.includes(user.id);
                 return {
                   ...item,
                   likes: isLiked
-                    ? item.likes.filter((id) => id !== user?.id)
-                    : [...item.likes, user?.id],
+                    ? item.likes.filter((id) => id !== user.id)
+                    : [...item.likes, user.id],
                 };
               }
               return item;
@@ -111,7 +111,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
           },
           rollbackOnError: true,
           revalidate: false,
-        },
+        }
       );
     } catch (error) {
       console.error("Error during optimistic update:", error);
@@ -122,6 +122,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 
   if (error) return <p>Failed to load confessions.</p>;
   if (!confessions?.length) return <EmptyConfession />;
+
   return (
     <section className="min-h-screen w-full py-28">
       <h2 className="px-5 lg:px-20">All Confessions</h2>

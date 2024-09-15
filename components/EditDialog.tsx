@@ -41,7 +41,7 @@ import { mutate } from "swr";
 
 const formSchema = z.object({
   content: z.string().min(2, {
-    message: "Content must be at least 2 characters long",
+    message: "This cannot be empty.",
   }),
   author: z.string({
     required_error: "Please select an author to display.",
