@@ -8,7 +8,7 @@
 	}
 
 	.scrollbar-hidden::-webkit-scrollbar {
-		@apply h-0 w-0;
+		@apply h-0 w-0 invisible;
 	}
 
 	.scrollbar::-webkit-scrollbar-track {

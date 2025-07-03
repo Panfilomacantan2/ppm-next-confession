@@ -13,8 +13,8 @@ const CommentButton = ({ confession }: { confession: TConfession }) => {
 	}, [router, confession?._id]);
 
 	return (
-		<div className="flex gap-x-1 cursor-pointer white" onClick={handleConfession}>
-			<MessageCircle size={18} />
+		<div className="flex gap-x-1 cursor-pointer white items-center justify-center" onClick={handleConfession}>
+			<MessageCircle size={20} />
 			<p className="text-foreground/90 text-xs mt-[6px]">
 				{confession?.comments?.length} {confession?.comments?.length > 1 ? 'comments' : 'comment'}
 			</p>

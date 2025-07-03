@@ -20,10 +20,23 @@ import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { mutate } from "swr";
 import { useConfessionSWR } from "@/lib/helper";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+
+import AnonymousImg from "@/public/icons/anonymous.png";
 
 const FormSchema = z.object({
   comment: z.string().min(2, {
     message: "Comment connot be empty.",
+  }),
+  commentAs: z.string().min(1, {
+    message: "Please select a name to display.",
   }),
 });
 
@@ -42,10 +55,13 @@ export default function CommentInputForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       comment: "",
+      commentAs: "Anonymous",
     },
   });
 
   const [loading, setLoading] = useState(false);
+
+  console.log(AnonymousImg);
 
   async function onSubmit(content: z.infer<typeof FormSchema>) {
     try {
@@ -60,7 +76,7 @@ export default function CommentInputForm({
           },
           body: JSON.stringify({
             _id: confessionId,
-            author: user.fullName,
+            author: content.commentAs ?? "Anonymous",
             content: content.comment,
             avatar: user.imageUrl,
           }),
@@ -103,7 +119,7 @@ export default function CommentInputForm({
             <FormItem>
               <FormControl>
                 <Textarea
-                  placeholder={`Comment as ${user.fullName}`}
+                  placeholder={`Comment as ${form.getValues("commentAs")}`}
                   className="w-full border border-border capitalize"
                   {...field}
                 />
@@ -113,16 +129,59 @@ export default function CommentInputForm({
             </FormItem>
           )}
         />
-        <Button type="submit" className="float-right">
-          {loading ? (
-            <div className="flex items-center">
-              <LoaderCircle size={18} className="animate-spin" />
-              <span className="ml-2">Adding comment...</span>
-            </div>
-          ) : (
-            "Add Comment"
-          )}
-        </Button>
+
+
+
+{/* Comment Button and Comment As */}
+        <div className="flex items-center justify-between space-x-2">
+          {/* <Select  */}
+
+          <FormField
+            control={form.control}
+            name="commentAs"
+            render={({ field }) => (
+              <FormItem>
+                <Select onValueChange={field.onChange} defaultValue="">
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Comment As" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {/* TODO: fixed the comment as */}
+
+                    {/* <SelectItem value={user?.fullName ?? " "}>
+                      {user?.fullName ?? "Anonymous"}
+                    </SelectItem> */}
+
+                    <SelectGroup>
+                      <SelectItem value="Anonymous">Anonymous</SelectItem>
+                      <SelectItem value={user.fullName ?? " "}>
+                        {user.fullName}
+                      </SelectItem>
+                      <SelectItem value={user.username ?? " "}>
+                        {user.username}
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="">
+            {loading ? (
+              <div className="flex items-center">
+                <LoaderCircle size={18} className="animate-spin" />
+                <span className="ml-2">Adding comment...</span>
+              </div>
+            ) : (
+              "Add Comment"
+            )}
+          </Button>
+        </div>
       </form>
     </Form>
   );

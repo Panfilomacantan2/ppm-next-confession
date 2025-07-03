@@ -17,6 +17,8 @@ import Loading from "./Loading";
 import ConfessionContent from "./ConfessionContent";
 import EmptyConfession from "./EmptyConfession";
 
+import AnonymousImg from "@/public/icons/anonymous.png";
+
 dayjs.extend(relativeTime);
 
 export const dynamic = "force-dynamic";
@@ -85,7 +87,7 @@ const MyConfessionLists = () => {
                 ) : (
                   <div className="h-9 w-9 overflow-hidden rounded-full">
                     <Image
-                      src={confession?.avatar}
+                      src={confession.author === "Anonymous" ? AnonymousImg : confession.avatar}
                       width={22}
                       height={22}
                       alt={confession?.author}

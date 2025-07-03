@@ -27,7 +27,16 @@ const confessionSchema = new Schema({
     default: Date.now,
   },
   likes: {
-    type: [String],
+    type: [
+      {
+        userId: {
+          type: String,
+        },
+        username: {
+          type: String,
+        },
+      },
+    ],
     default: [], // Ensure it defaults to an empty array
   },
   comments: [

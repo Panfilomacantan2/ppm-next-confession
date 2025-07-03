@@ -9,6 +9,8 @@ import CommentLists from "./CommentLists";
 import CommentButton from "./CommentButton";
 import LikeButton from "./LikeButton";
 import { mutate } from "swr";
+import AnonymousImg from "@/public/icons/anonymous.png";
+
 dayjs.extend(relativeTime);
 
 const CardConfession = ({
@@ -21,7 +23,7 @@ const CardConfession = ({
   confessionId: string;
 }) => {
   const handleLikeConfession = async (id: string) => {
-
+    console.log({ user });
     try {
       const response = await fetch(`/api/like`, {
         method: "POST",
@@ -33,7 +35,6 @@ const CardConfession = ({
       await mutate(`/api/confession`);
 
       if (!response.ok) throw new Error("Failed to like the confession.");
-
     } catch (error) {
       console.error("Failed to like confession:", error);
     }
@@ -50,7 +51,11 @@ const CardConfession = ({
           ) : (
             <div className="h-9 w-9 overflow-hidden rounded-full">
               <Image
-                src={confession.avatar}
+                src={
+                  confession.author === "Anonymous"
+                    ? AnonymousImg
+                    : confession.avatar
+                }
                 width={22}
                 height={22}
                 alt={confession.author}
@@ -64,6 +69,11 @@ const CardConfession = ({
           <p className="text-left text-sm text-foreground">
             {confession.author}
           </p>
+
+          <p className="text-left text-xs text-foreground/80">
+            -is feeling {confession.feeling ?? "😊 Happy"}
+          </p>
+
           <p className="text-left text-xs text-foreground/60">
             {dayjs(confession.createdAt).fromNow()}
           </p>
@@ -74,7 +84,7 @@ const CardConfession = ({
         {confession.content}
       </p>
 
-      <div className="mr-auto flex w-full gap-x-4 p-0 border-b border-border py-2">
+      <div className="mr-auto flex w-full justify-end gap-x-4 border-b border-border p-0 py-2">
         <CommentButton confession={confession} />
         <LikeButton
           confession={confession}

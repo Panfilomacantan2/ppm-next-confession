@@ -16,6 +16,8 @@ import Loading from "./Loading";
 import ConfessionContent from "./ConfessionContent";
 import EmptyConfession from "./EmptyConfession";
 
+import AnonymousImg from "@/public/icons/anonymous.png";
+
 dayjs.extend(relativeTime);
 
 interface ConfessionListProps {
@@ -132,7 +134,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
         {entries.map((confession: TConfession, idx: number) => (
           <Card
             key={idx}
-            className="relative h-64 min-w-full px-4 py-8 text-center hover:-translate-y-[2px] hover:border-blue-400/30"
+            className="relative h-64 min-w-full px-4 py-8 text-center"
           >
             <div className="flex items-center justify-start gap-x-2">
               <div className="h-9 w-9">
@@ -143,7 +145,11 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
                 ) : (
                   <div className="h-9 w-9 overflow-hidden rounded-full">
                     <Image
-                      src={confession.avatar}
+                      src={
+                        confession.author === "Anonymous"
+                          ? AnonymousImg
+                          : confession.avatar
+                      }
                       width={22}
                       height={22}
                       alt={confession.author || "Confession author"}
@@ -162,7 +168,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
                   -is feeling {confession.feeling ?? "😊 Happy"}
                 </p>
 
-                <p className="text-left text-xs text-foreground/60">
+                <p className="text-left text-xs font-light text-foreground/60">
                   {dayjs(confession.createdAt).fromNow()}
                 </p>
               </div>
