@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     // Return a proper error response
     return NextResponse.json(
       { error: "Failed to like/unlike confession." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -5,6 +5,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useRef } from "react";
 import { MessagesSquare } from "lucide-react";
 import AnonymousImg from "@/public/icons/anonymous.png";
+import { useLongPressModal } from "@/lib/hooks/useLongPressModal";
+import DeleteCommentModal from "./delete-comment-dialog";
 
 dayjs.extend(relativeTime);
 
@@ -29,6 +31,7 @@ dayjs.locale("en", {
 
 const CommentLists = ({ confession }: { confession: TConfession }) => {
   const container = useRef<HTMLDivElement>(null);
+  const { bind } = useLongPressModal();
 
   useEffect(() => {
     const scrollToBottom = () => {
@@ -81,26 +84,25 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
             )}
           </div>
 
-          <div>
-
-          <div className="max-w-full rounded-md bg-gray-300 p-2 dark:bg-gray-800">
-            <div className="flex flex-col items-start justify-start">
-              <p className="text-xs font-medium capitalize text-foreground">
-                {comment.author}
-                {/* {comment.avatar} */}
+          <DeleteCommentModal>
+            <div>
+              <div className="max-w-full rounded-md bg-gray-300 p-2 dark:bg-gray-800">
+                <div className="flex flex-col items-start justify-start">
+                  <p className="text-xs font-medium capitalize text-foreground">
+                    {comment.author}
+                    {/* {comment.avatar} */}
+                  </p>
+                </div>
+                <p className="w-full overflow-hidden break-words text-left text-sm text-foreground/80">
+                  {comment.content}
+                </p>
+              </div>
+              <p className="mt-1 text-left text-xs text-foreground/60">
+                {dayjs(comment.createdAt).fromNow()}
               </p>
-             
             </div>
-            <p className="w-full overflow-hidden break-words text-left text-sm text-foreground/80">
-              {comment.content}
-            </p>
-          </div>
-          <p className="text-xs text-foreground/60 mt-1 text-left">
-            {dayjs(comment.createdAt).fromNow()}
-          </p>
+          </DeleteCommentModal>
         </div>
-        </div>
-     
       ))}
     </div>
   );

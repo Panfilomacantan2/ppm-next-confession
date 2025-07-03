@@ -25,8 +25,8 @@ export default function DeleteDialog({ confessionId, onClick }: { confessionId: 
 					<AlertDialogDescription>This action cannot be undone. This will permanently delete your confession.</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel>Cancel</AlertDialogCancel>
 					<AlertDialogAction onClick={() => onClick(confessionId)}>Continue</AlertDialogAction>
+					<AlertDialogCancel>Cancel</AlertDialogCancel>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

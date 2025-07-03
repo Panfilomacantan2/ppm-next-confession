@@ -22,10 +22,7 @@ const LikeButton = ({
   const { user } = useUser();
 
   
-  if (!confession) return null;
-  if (!confession.likes) {
-    confession.likes = [];
-  }
+  
 
   return (
     <div className="flex items-center justify-center">

@@ -37,7 +37,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
           dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix(),
       );
     },
-    refreshInterval: 1000,
+    refreshInterval: 3000,
   });
 
   const per_page = parseInt(searchParams["per_page"]) || 12;
@@ -124,7 +124,6 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 
   if (error) return <p>Failed to load confessions.</p>;
   if (!confessions?.length) return <EmptyConfession />;
-  console.log(confessions);
 
   return (
     <section className="min-h-screen w-full py-28">
