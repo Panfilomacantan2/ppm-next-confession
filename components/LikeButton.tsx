@@ -21,9 +21,6 @@ const LikeButton = ({
 }) => {
   const { user } = useUser();
 
-  
-  
-
   return (
     <div className="flex items-center justify-center">
       <ThumbsUp
@@ -48,15 +45,14 @@ const LikeButton = ({
             <div className="space-y-1">
               {/* test get all the name who likes this post*/}
               {/* {confession?.likes?.map((like, idx) => (
-                <div key={idx}>{like}</div>
+                <p key={idx} className="text-xs">
+                  {like}
+                </p>
               ))} */}
-              {[
-                18, // Replace with actual logic to get user names
-                19, // Replace with actual logic to get user names
-                20, // Replace with actual logic to get user names
-              ].map((like, idx) => (
-                <div key={idx}>{like}</div>
-              ))}
+
+              <p className="text-xs text-foreground/90">
+                This feature is not implemented yet.
+              </p>
             </div>
           </div>
         </HoverCardContent>

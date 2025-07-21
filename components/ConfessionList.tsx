@@ -17,6 +17,7 @@ import ConfessionContent from "./ConfessionContent";
 import EmptyConfession from "./EmptyConfession";
 
 import AnonymousImg from "@/public/icons/anonymous.png";
+import { Separator } from "./ui/separator";
 
 dayjs.extend(relativeTime);
 
@@ -47,13 +48,14 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
   const entries = confessions?.slice(start, end);
 
   const handleLikeConfession = async (id: string) => {
+    console.log(user);
     if (!user?.id) {
       console.error("User is not logged in.");
       return;
     }
 
     try {
-      const response = await fetch(`/api/like`, {
+      const response = await fetch("/api/like", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +63,9 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
         body: JSON.stringify({ confessionId: id, userId: user.id }),
       });
 
-      if (!response.ok) throw new Error("Failed to like the confession.");
+      // if (!response.ok) throw new Error("Failed to like the confession.");
+
+      console.log(response);
     } catch (error) {
       console.error("Failed to like confession:", error);
     }
@@ -76,14 +80,14 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
         async (currentData: TConfession[] | undefined) => {
           if (!currentData) return [];
 
-          const isLiked = confession.likes.includes(user.id);
+          const isLiked = confession.likes.includes(user?.id);
 
           const updatedConfessions = currentData.map((item) => {
             if (item._id === confession._id) {
               return {
                 ...item,
                 likes: isLiked
-                  ? item.likes.filter((id) => id !== user.id)
+                  ? item.likes.filter((id) => id !== user?.id)
                   : [...item.likes, user.id],
               };
             }
@@ -133,7 +137,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
         {entries.map((confession: TConfession, idx: number) => (
           <Card
             key={idx}
-            className="relative h-64 min-w-full px-4 py-8 text-center"
+            className="relative h-72 min-w-full px-4 py-8 text-center"
           >
             <div className="flex items-center justify-start gap-x-2">
               <div className="h-9 w-9">
@@ -182,6 +186,9 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
 
             <CardFooter className="absolute bottom-4 right-4 justify-end gap-x-4 p-0">
               <CommentButton confession={confession} />
+
+              <Separator orientation="vertical" className="h-6" />
+
               <LikeButton
                 confession={confession}
                 onClick={() => handleClick(confession)}

@@ -23,7 +23,7 @@ const CardConfession = ({
   confessionId: string;
 }) => {
   const handleLikeConfession = async (id: string) => {
-    console.log({ user });
+    console.log({ id });
     try {
       const response = await fetch(`/api/like`, {
         method: "POST",

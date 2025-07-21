@@ -33,17 +33,21 @@ export const likeConfession = async (confessionId: string) => {
 		await connectToDB();
 
 		// Find the confession by ID
-		const confession = await Confession.findById(confessionId?.toString());
+		const confession = await Confession.findById(confessionId);
 
 		if (!confession) {
 			throw new Error('Confession not found!');
 		}
 
+
+		// TODO: fixed this issue:
 		// Increment the like count
-		confession.likes += 1;
+		confession.likes.push()
 
 		// Save the updated confession
 		await confession.save();
+
+
 	} catch (error) {
 		console.error('Error liking confession:', error);
 

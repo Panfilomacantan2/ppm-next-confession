@@ -23,3 +23,4 @@ const CommentButton = ({ confession }: { confession: TConfession }) => {
 };
 
 export default CommentButton;
+

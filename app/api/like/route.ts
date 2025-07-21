@@ -6,8 +6,13 @@ export async function POST(request: NextRequest) {
   try {
     const { confessionId, userId } = await request.json();
 
+    console.log("Received data:", {
+      confessionId,
+      userId,
+    });
+
     if (!confessionId || !userId) {
-      throw new Error("Invalid request: confessionId and userId are required.");
+      return NextResponse.json({ error: "Missing data" }, { status: 400 });
     }
 
     await connectToDB();
@@ -16,7 +21,10 @@ export async function POST(request: NextRequest) {
     const confession = await Confession.findById(confessionId);
 
     if (!confession) {
-      throw new Error(`Confession with ID ${confessionId} not found!`);
+      return NextResponse.json(
+        { error: "Confession not found" },
+        { status: 404 },
+      );
     }
 
     // Check if the userId is already in the likes array
@@ -38,9 +46,9 @@ export async function POST(request: NextRequest) {
     console.error("Error liking/unliking confession:", error);
 
     // Return a proper error response
-    return NextResponse.json(
-      { error: "Failed to like/unlike confession." },
-      { status: 500 },
-    );
+    // return NextResponse.json(
+    //   { error: "Failed to like/unlike confession." },
+    //   { status: 500 },
+    // );
   }
 }

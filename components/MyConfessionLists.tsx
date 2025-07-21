@@ -76,7 +76,7 @@ const MyConfessionLists = () => {
         {confessions.map((confession: any) => (
           <Card
             key={confession._id}
-            className="relative h-64 min-w-full px-4 py-8 text-center hover:-translate-y-[2px] hover:border-blue-400/30"
+            className="relative h-72 min-w-full px-4 py-8 text-center hover:-translate-y-[2px] hover:border-blue-400/30"
           >
             <div className="flex items-center justify-start gap-x-2">
               <div className="h-9 w-9">
