@@ -1,15 +1,21 @@
 import mongoose, { Schema } from "mongoose";
 
 const confessionSchema = new Schema({
-  user_id: {
+  clerk_id: {
     type: String,
     required: true,
+    index: true,
+  },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    index: true,
   },
   content: {
     type: String,
     required: true,
     minlength: 1,
-    maxlength: 2000, // Limit the confession length to 2000 characters
+    maxlength: 2000,
   },
   author: {
     type: String,
@@ -17,42 +23,31 @@ const confessionSchema = new Schema({
   },
   avatar: {
     type: String,
-    required: false,
+    default: null,
   },
   feeling: {
     type: String,
+    default: null,
   },
   createdAt: {
     type: Date,
     default: Date.now,
+    index: true,
   },
-  likes: {
-    type: [String], // Array of user IDs who liked the confession
-    default: [], // Ensure it defaults to an empty array
-  }, // Ensure it defaults to an empty array
+
   comments: [
     {
-      author: {
-        type: String,
-        default: "Anonymous",
-      },
-      content: {
-        type: String,
-        required: true,
-      },
-      avatar: {
-        type: String,
-        required: false,
-      },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
+      author: { type: String, default: "Anonymous" },
+      content: { type: String, required: true },
+      avatar: { type: String, default: null },
+      createdAt: { type: Date, default: Date.now },
     },
   ],
 });
 
-// Export the model, or create it if it doesn't exist already
+// Indexes para mas mabilis
+confessionSchema.index({ createdAt: -1 });
+
 const Confession =
   mongoose.models.confession || mongoose.model("confession", confessionSchema);
 

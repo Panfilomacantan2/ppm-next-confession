@@ -1,29 +1,50 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import * as React from "react";
+import { Monitor, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+export function ThemeSwitcher() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
-export default function ModeToggle() {
-	const { setTheme } = useTheme();
+  // useEffect only runs on the client, so we know we're hydrated
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
-	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button variant="outline" size="icon" className="border border-border bg-transparent">
-					<Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-					<Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-					<span className="sr-only">Toggle theme</span>
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
-	);
+  if (!mounted) {
+    return (
+      <div className="h-9 w-full max-w-40 bg-muted animate-pulse rounded-full" />
+    );
+  }
+
+  return (
+    <Tabs value={theme} onValueChange={(value: string) => setTheme(value)}>
+      <TabsList className="grid w-full max-w-40 grid-cols-3 rounded-full bg-muted p-1">
+        <TabsTrigger
+          value="system"
+          className="rounded-full data-[state=active]:bg-background"
+        >
+          <Monitor className="h-4 w-4" />
+          <span className="sr-only">System</span>
+        </TabsTrigger>
+        <TabsTrigger
+          value="light"
+          className="rounded-full data-[state=active]:bg-background"
+        >
+          <Sun className="h-4 w-4" />
+          <span className="sr-only">Light</span>
+        </TabsTrigger>
+        <TabsTrigger
+          value="dark"
+          className="rounded-full data-[state=active]:bg-background"
+        >
+          <Moon className="h-4 w-4" />
+          <span className="sr-only">Dark</span>
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
+  );
 }

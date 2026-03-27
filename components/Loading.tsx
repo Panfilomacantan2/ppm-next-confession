@@ -12,8 +12,10 @@ export default function LoadingSpinner() {
 
       <span>
         <span className="sr-only">Loading...</span>
-        <span className="text-foreground/80 text-sm">Loading...</span>
+        <span className="text-sm text-foreground/80">Loading...</span>
       </span>
     </div>
   );
 }
+
+// git pull origin main asya it command para maging up to date it branch <feature> na tikang ha Main

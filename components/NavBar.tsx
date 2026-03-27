@@ -1,68 +1,70 @@
 "use client";
 
 import Link from "next/link";
-import { AvatarDemo } from "./Avatar";
 import { NavLinks } from "@/constants";
-import ModeToggle from "./ToggleDarkMode";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { SignOutButton, SignedIn, UserButton, useUser } from "@clerk/nextjs";
-import { LogOut } from "lucide-react";
+import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { SideBar } from "./SideBar";
+import { AddConfessionDialog } from "./add-confession-button";
+import { MessageCircleHeart } from "lucide-react";
 
 export default function NavBar() {
   const pathname = usePathname();
-  const router = useRouter();
   const { isLoaded } = useUser();
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow dark:bg-gray-950 lg:px-20">
-      <div className="container px-4 md:px-6">
-        <div className="flex h-16 items-center">
-          <Link
-            className="mr-auto flex items-center gap-2 text-lg font-semibold"
-            href="/"
-          >
-            {/* <Image src={Logo} alt="logo" width={50} height={50} /> */}
-            <span className="text-lg text-red-600">Konpisko</span>
-          </Link>
-          <nav className="ml-auto flex items-center space-x-4">
-            {NavLinks.map((link) => {
-              const isActive = pathname === link.route;
-              return (
-                <Link
-                  key={link.route}
-                  className={cn(
-                    "hidden border-b-2 border-transparent text-sm font-medium transition-colors hover:border-gray-100 hover:text-gray-900 dark:hover:border-sky-800 dark:hover:text-sky-50 lg:flex",
-                    {
-                      "border-sky-500 dark:border-sky-500": isActive,
-                    },
-                  )}
-                  href={link.route}
-                >
-                  {link.title}
-                </Link>
-              );
-            })}
+    <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-center border-b border-border/40 bg-background/80 backdrop-blur-md lg:px-20">
+      <div className="flex w-full max-w-7xl items-center justify-between px-4 py-3 md:px-6">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-500 text-white shadow-sm transition-transform group-hover:scale-105">
+            <MessageCircleHeart size={18} />
+          </div>
+          <span className="text-base font-bold tracking-tight">
+            Konpisko<span className="text-rose-500">.</span>
+          </span>
+        </Link>
 
-            <div className="h-8 w-8">
-              <SignedIn>
-                {!isLoaded ? (
-                  <div className="animate-pulse">
-                    <div className="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700"></div>
-                  </div>
-                ) : (
-                  <UserButton afterSignOutUrl="/sign-in" />
+        {/* Desktop Nav */}
+        <nav className="ml-auto flex items-center gap-1">
+          {NavLinks.map((link) => {
+            const isActive = pathname === link.route;
+            return (
+              <Link
+                key={link.route}
+                href={link.route}
+                className={cn(
+                  "hidden rounded-md px-3 py-1.5 text-sm font-medium transition-colors lg:block",
+                  isActive
+                    ? "bg-accent text-accent-foreground"
+                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                 )}
-              </SignedIn>
+              >
+                {link.title}
+              </Link>
+            );
+          })}
+
+          <div className="mx-2 hidden h-4 w-px bg-border lg:block" />
+
+          <AddConfessionDialog />
+
+          <SignedIn>
+            <div className="ml-2 h-8 w-8">
+              {!isLoaded ? (
+                <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
+              ) : (
+                <UserButton afterSignOutUrl="/sign-in" />
+              )}
             </div>
+          </SignedIn>
 
-            <ModeToggle />
-
+          <div className="ml-1 lg:hidden">
             <SideBar />
-          </nav>
-        </div>
+          </div>
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 }

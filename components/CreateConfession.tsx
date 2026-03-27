@@ -98,7 +98,7 @@ export default function CreateConfessionForm() {
   }
 
   return (
-    <Card className="w-full md:w-[520px]">
+    <Card className="w-full border-0">
       <CardHeader>
         <CardTitle>Create confession</CardTitle>
         <CardDescription>Create a new confession</CardDescription>

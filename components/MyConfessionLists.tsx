@@ -69,27 +69,42 @@ const MyConfessionLists = () => {
   if (!confessions.length) return <EmptyConfession />;
 
   return (
-    <section className="min-h-screen w-full py-28">
-      <h2 className="px-5 lg:px-20">My Confessions</h2>
+    <section className="min-h-screen max-w-7xl py-28">
+      {/* Header */}
+      <div className="px-5 pb-2 lg:px-20">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">📖</span>
+          <h2 className="text-xl font-semibold tracking-tight">My Confessions</h2>
+        </div>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Your private thoughts, laid bare.
+        </p>
+      </div>
 
       <AutoFitLayout className="lg:py-10">
         {confessions.map((confession: any) => (
           <Card
             key={confession._id}
-            className="relative h-72 min-w-full px-4 py-8 text-center hover:-translate-y-[2px] hover:border-blue-400/30"
+            className="group relative flex h-72 min-w-full flex-col justify-between overflow-hidden border border-border/60 px-5 py-5 shadow-sm transition-shadow hover:shadow-md"
           >
-            <div className="flex items-center justify-start gap-x-2">
-              <div className="h-9 w-9">
+            {/* Accent line */}
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-rose-400/60 via-pink-300/40 to-transparent" />
+
+            {/* Author row */}
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 shrink-0">
                 {!confession?.avatar ? (
-                  <div className="animate-pulse">
-                    <div className="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-700"></div>
-                  </div>
+                  <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />
                 ) : (
-                  <div className="h-9 w-9 overflow-hidden rounded-full">
+                  <div className="h-9 w-9 overflow-hidden rounded-full ring-2 ring-border">
                     <Image
-                      src={confession.author === "Anonymous" ? AnonymousImg : confession.avatar}
-                      width={22}
-                      height={22}
+                      src={
+                        confession.author === "Anonymous"
+                          ? AnonymousImg
+                          : confession.avatar
+                      }
+                      width={36}
+                      height={36}
                       alt={confession?.author}
                       className="h-full w-full object-cover"
                     />
@@ -97,36 +112,31 @@ const MyConfessionLists = () => {
                 )}
               </div>
 
-              <div className="flex flex-col items-start justify-start">
-                <p className="text-left text-xs text-foreground">
+              <div className="flex flex-col">
+                <span className="text-sm font-medium capitalize leading-tight">
                   {confession?.author}
-                </p>
-                <p className="text-left text-xs text-foreground/80">
-                  -is feeling {confession.feeling ?? "😊 Happy"}
-                </p>
-                <p className="text-left text-xs text-foreground/60">
-                  {dayjs(confession?.createdAt).fromNow()}
-                </p>
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {confession.feeling ?? "😊 Happy"} · {dayjs(confession?.createdAt).fromNow()}
+                </span>
               </div>
             </div>
 
-            <p className="my-5 text-left text-[14px] text-foreground/80">
+            {/* Content */}
+            <p className="flex-1 pt-4 text-left text-sm leading-relaxed text-foreground/80">
               <ConfessionContent
                 content={confession.content}
                 id={confession._id}
               />
             </p>
 
-            <CardFooter className="absolute bottom-4 right-4 justify-end p-0">
-              <div className="right-0 flex gap-x-3">
-                <DeleteDialog
-                  confessionId={confession._id}
-                  onClick={deleteConfession}
-                />
-                <div className="rounded-full bg-sky-100/90 p-1 hover:bg-sky-100/80">
-                  <EditDialog confession={confession} />
-                </div>
-              </div>
+            {/* Footer */}
+            <CardFooter className="mt-3 flex items-center justify-end gap-2 border-t border-border/40 p-0 pt-3">
+              <DeleteDialog
+                confessionId={confession._id}
+                onClick={deleteConfession}
+              />
+              <EditDialog confession={confession} />
             </CardFooter>
           </Card>
         ))}

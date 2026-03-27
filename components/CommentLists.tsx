@@ -46,58 +46,48 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
 
   if (!confession.comments.length)
     return (
-      <div className="flex flex-col items-center justify-center py-5">
-        <MessagesSquare className="text-foreground/85" />
-        <p className="text-[14px] font-medium text-foreground/90">
-          No comments yet
-        </p>
-        <p className="text-[14px] font-light text-foreground/70">
-          Be the first to comment.
-        </p>
+      <div className="flex flex-col items-center justify-center gap-1 py-8 text-center">
+        <MessagesSquare size={28} className="text-muted-foreground/50" />
+        <p className="text-sm font-medium text-foreground/80">No comments yet</p>
+        <p className="text-xs text-muted-foreground">Be the first to confess a reply.</p>
       </div>
     );
 
   return (
     <div
-      className="scrollbar-hidden shover:scrollbar my-4 max-h-40 overflow-x-hidden overflow-y-scroll"
+      className="scrollbar-hidden my-3 max-h-52 space-y-3 overflow-x-hidden overflow-y-scroll pr-1"
       ref={container}
     >
       {confession.comments.map((comment: TComment) => (
-        <div
-          key={comment._id}
-          className="flex w-full items-start space-x-3 p-4 pb-0"
-        >
-          <div className="h-9 w-9 flex-shrink-0">
+        <div key={comment._id} className="flex w-full items-start gap-2.5 px-1">
+          {/* Avatar */}
+          <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full ring-1 ring-border">
             {comment.avatar ? (
               <Image
-                src={
-                  comment.author === "Anonymous" ? AnonymousImg : comment.avatar
-                }
+                src={comment.author === "Anonymous" ? AnonymousImg : comment.avatar}
                 alt={comment.author}
-                width={35}
-                height={35}
-                className="h-full w-full rounded-full object-cover"
+                width={32}
+                height={32}
+                className="h-full w-full object-cover"
                 loading="lazy"
               />
             ) : (
-              <div className="h-5 w-5 rounded-full bg-gray-300"></div>
+              <div className="h-full w-full rounded-full bg-muted" />
             )}
           </div>
 
+          {/* Bubble */}
           <DeleteCommentModal>
-            <div>
-              <div className="max-w-full rounded-md bg-gray-300 p-2 dark:bg-gray-800">
-                <div className="flex flex-col items-start justify-start">
-                  <p className="text-xs font-medium capitalize text-foreground">
-                    {comment.author}
-                    {/* {comment.avatar} */}
-                  </p>
-                </div>
-                <p className="w-full overflow-hidden break-words text-left text-sm text-foreground/80">
+            <div className="flex flex-col">
+              <div className="rounded-2xl rounded-tl-sm bg-muted px-3 py-2">
+                <p className="mb-0.5 text-xs font-semibold capitalize text-foreground">
+                  {comment.author}
+                </p>
+                <p className="break-words text-sm leading-snug text-foreground/80">
                   {comment.content}
                 </p>
               </div>
-              <p className="mt-1 text-left text-xs text-foreground/60">
+              <p className="mt-1 pl-1 text-left text-[11px] text-muted-foreground">
                 {dayjs(comment.createdAt).fromNow()}
               </p>
             </div>

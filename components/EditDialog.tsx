@@ -118,10 +118,14 @@ export default function EditDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Pencil
-          size={18}
-          className="cursor-pointer text-sm text-foreground/80 text-sky-700"
-        />
+        <div className="flex items-center justify-center gap-x-1 rounded-md bg-sky-100/90 px-4 py-2 text-xs text-sky-700 hover:bg-sky-100/80">
+          <Pencil
+            size={15}
+            className="cursor-pointer text-foreground/80 text-sky-700"
+          />
+
+          <span>Edit</span>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

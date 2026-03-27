@@ -32,6 +32,7 @@ const CardConfession = ({
         },
         body: JSON.stringify({ confessionId: id, userId: user.id }),
       });
+
       await mutate(`/api/confession`);
 
       if (!response.ok) throw new Error("Failed to like the confession.");

@@ -130,9 +130,7 @@ export default function CommentInputForm({
           )}
         />
 
-
-
-{/* Comment Button and Comment As */}
+        {/* Comment Button and Comment As */}
         <div className="flex items-center justify-between space-x-2">
           {/* <Select  */}
 

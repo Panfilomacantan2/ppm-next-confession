@@ -7,7 +7,7 @@ const AutoFitLayout = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     className={cn(
-      "grid min-h-screen w-full grid-cols-1 gap-5 p-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:p-20 xl:grid-cols-4",
+      "grid min-h-screen w-full grid-cols-1 gap-5 p-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:p-20 xl:grid-cols-3",
       className,
     )}
     ref={ref}

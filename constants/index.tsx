@@ -4,10 +4,6 @@ export const NavLinks = [
     route: "/",
   },
   {
-    title: "Create",
-    route: "/create",
-  },
-  {
     title: "My Confession",
     route: "/my-confession",
   },
