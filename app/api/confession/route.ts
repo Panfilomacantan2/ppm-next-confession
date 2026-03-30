@@ -28,7 +28,7 @@ export async function GET() {
 
       confessions = confessions.map((conf) => ({
         ...conf,
-        isLiked: likedIds.has(conf._id.toString()), // ← dito inilalagay
+        isLiked: likedIds.has((conf as any)._id.toString()), 
         likeCount: conf.likeCount || 0,
       }));
     } else {

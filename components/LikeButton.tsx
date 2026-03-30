@@ -14,8 +14,6 @@ const LikeButton = ({
 }) => {
   const { user } = useUser();
 
-  console.log(confession);
-
   return (
     <div className="flex items-center justify-center">
       <ThumbsUp
@@ -26,7 +24,10 @@ const LikeButton = ({
         onClick={onClick}
       />
 
-      <span className="ml-1 text-sm">{confession?.likeCount || 0}</span>
+      <span className="ml-1 mt-[6px] text-xs text-foreground/90">
+        {Number(confession?.likeCount || 0)}{" "}
+        {Number(confession?.likeCount || 0) > 1 ? "Likes" : "Like"}
+      </span>
     </div>
   );
 };

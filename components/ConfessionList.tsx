@@ -78,8 +78,8 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
                 ...item,
                 isLiked: !currentlyLiked, // toggle
                 likeCount: currentlyLiked
-                  ? (item.likeCount || 0) - 1
-                  : (item.likeCount || 0) + 1,
+                  ? Number(item.likeCount || 0) - 1
+                  : Number(item.likeCount || 0) + 1,
               };
             }
             return item;
@@ -106,8 +106,8 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
                   ...item,
                   isLiked: !currentlyLiked,
                   likeCount: currentlyLiked
-                    ? (item.likeCount || 0) - 1
-                    : (item.likeCount || 0) + 1,
+                    ? Number(item.likeCount || 0) - 1
+                    : Number(item.likeCount || 0) + 1,
                 };
               }
               return item;

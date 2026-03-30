@@ -13,7 +13,7 @@ export type TConfession = {
 	content: string;
 	author: string;
 	avatar: string;
-	likeCount: string[];
+	likeCount: Number;
 	isLiked?: boolean;
 	createdAt: string;
 	feeling: string;
