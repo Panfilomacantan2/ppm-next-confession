@@ -15,6 +15,8 @@ import { useUser } from "@clerk/nextjs";
 import Loading from "./Loading";
 import ConfessionContent from "./ConfessionContent";
 import EmptyConfession from "./EmptyConfession";
+import { usePageLoading } from "@/lib/LoadingContext";
+import { useEffect } from "react";
 
 import AnonymousImg from "@/public/icons/anonymous.png";
 import { Separator } from "./ui/separator";
@@ -27,6 +29,7 @@ interface ConfessionListProps {
 
 export default function ConfessionList({ searchParams }: ConfessionListProps) {
   const { user } = useUser();
+  const { setIsPageLoading } = usePageLoading();
   const {
     data: confessions,
     error,
@@ -42,85 +45,80 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
   });
 
   const per_page = parseInt(searchParams["per_page"]) || 12;
+
+  useEffect(() => {
+    setIsPageLoading(isLoading);
+  }, [isLoading]);
+
   const page = parseInt(searchParams["page"]) || 1;
   const start = (page - 1) * per_page;
   const end = start + per_page;
   const entries = confessions?.slice(start, end);
 
-  const handleLikeConfession = async (id: string) => {
-    console.log(user);
+  const handleClick = async (confession: TConfession) => {
     if (!user?.id) {
-      console.error("User is not logged in.");
+      alert("Please sign in to like confessions");
       return;
     }
 
-    try {
-      const response = await fetch("/api/like", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ confessionId: id, userId: user.id }),
-      });
-
-      // if (!response.ok) throw new Error("Failed to like the confession.");
-
-      console.log(response);
-    } catch (error) {
-      console.error("Failed to like confession:", error);
-    }
-  };
-
-  const handleClick = async (confession: TConfession) => {
-    if (!user?.id) return;
+    const confessionId = confession._id;
+    const userId = user.id;
 
     try {
       await mutate(
-        "/api/confession",
+        "/api/confession", // Important: gamitin ang key ng confessions
         async (currentData: TConfession[] | undefined) => {
           if (!currentData) return [];
 
-          const isLiked = confession.likes.includes(user?.id);
+          const updatedData = currentData.map((item) => {
+            if (item._id === confessionId) {
+              const currentlyLiked = item.isLiked ?? false; // gagamitin natin ito
 
-          const updatedConfessions = currentData.map((item) => {
-            if (item._id === confession._id) {
               return {
                 ...item,
-                likes: isLiked
-                  ? item.likes.filter((id) => id !== user?.id)
-                  : [...item.likes, user.id],
+                isLiked: !currentlyLiked, // toggle
+                likeCount: currentlyLiked
+                  ? (item.likeCount || 0) - 1
+                  : (item.likeCount || 0) + 1,
               };
             }
             return item;
           });
 
-          await handleLikeConfession(confession._id);
+          // Tawagin ang API para sa tunay na like/unlike
+          await fetch("/api/like", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ confessionId, userId }),
+          });
 
-          return updatedConfessions;
+          return updatedData;
         },
         {
           optimisticData: (currentData: TConfession[] | undefined) => {
             if (!currentData) return [];
 
             return currentData.map((item) => {
-              if (item._id === confession._id) {
-                const isLiked = item.likes.includes(user.id);
+              if (item._id === confessionId) {
+                const currentlyLiked = item.isLiked ?? false;
+
                 return {
                   ...item,
-                  likes: isLiked
-                    ? item.likes.filter((id) => id !== user.id)
-                    : [...item.likes, user.id],
+                  isLiked: !currentlyLiked,
+                  likeCount: currentlyLiked
+                    ? (item.likeCount || 0) - 1
+                    : (item.likeCount || 0) + 1,
                 };
               }
               return item;
             });
           },
           rollbackOnError: true,
-          revalidate: false,
+          revalidate: true, // re-fetch after real API call
         },
       );
     } catch (error) {
-      console.error("Error during optimistic update:", error);
+      console.error("Like error:", error);
     }
   };
 
@@ -130,7 +128,7 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
   if (!confessions?.length) return <EmptyConfession />;
 
   return (
-    <section className="min-h-screen max-w-7xl py-28">
+    <section className="mx-auto min-h-screen max-w-7xl py-28">
       {/* Header */}
       <div className="px-5 pb-2 lg:px-20">
         <div className="flex items-center gap-2">
@@ -178,7 +176,8 @@ export default function ConfessionList({ searchParams }: ConfessionListProps) {
                   {confession.author || "Anonymous"}
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  {confession.feeling ?? "😊 Happy"} · {dayjs(confession.createdAt).fromNow()}
+                  {confession.feeling ?? "😊 Happy"} ·{" "}
+                  {dayjs(confession.createdAt).fromNow()}
                 </span>
               </div>
             </div>

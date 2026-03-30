@@ -1,4 +1,4 @@
-import CreateConfessionForm from "@/components/CreateConfession";
+import CreateConfessionForm from "@/components/button-create-confession-form";
 import React from "react";
 
 const ContactPage = async () => {

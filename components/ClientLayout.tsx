@@ -1,13 +1,14 @@
-// components/ClientLayout.js
 'use client';
 
 import { useUser } from '@clerk/nextjs';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import React from 'react';
+import { usePageLoading } from '@/lib/LoadingContext';
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
 	const { isLoaded, isSignedIn } = useUser();
+	const { isPageLoading } = usePageLoading();
 
 	if (!isLoaded) return null;
 
@@ -15,7 +16,7 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
 		<>
 			{isSignedIn && <NavBar />}
 			{children}
-			{isSignedIn && <Footer />}
+			{isSignedIn && !isPageLoading && <Footer />}
 		</>
 	);
 };

@@ -18,12 +18,19 @@ import ConfessionContent from "./ConfessionContent";
 import EmptyConfession from "./EmptyConfession";
 
 import AnonymousImg from "@/public/icons/anonymous.png";
+import { useEffect } from "react";
+import { usePageLoading } from "@/lib/LoadingContext";
 
 dayjs.extend(relativeTime);
 
 export const dynamic = "force-dynamic";
 
 const MyConfessionLists = () => {
+
+    const { setIsPageLoading } = usePageLoading();
+  
+  
+   
   const { isLoaded, isSignedIn, user } = useUser();
   const {
     data: confessions,
@@ -37,6 +44,11 @@ const MyConfessionLists = () => {
       );
     },
   });
+
+   useEffect(() => {
+      setIsPageLoading(isLoading);
+    }, [isLoading]);
+  
 
   const deleteConfession = async (id: string) => {
     try {
@@ -66,10 +78,10 @@ const MyConfessionLists = () => {
 
   if (!isSignedIn) return <p>Please sign in to view confessions.</p>;
   if (isLoading) return <Loading />;
-  if (!confessions.length) return <EmptyConfession />;
+  if (!confessions?.length) return <EmptyConfession />;
 
   return (
-    <section className="min-h-screen max-w-7xl py-28">
+    <section className="min-h-screen max-w-7xl py-28 mx-auto">
       {/* Header */}
       <div className="px-5 pb-2 lg:px-20">
         <div className="flex items-center gap-2">

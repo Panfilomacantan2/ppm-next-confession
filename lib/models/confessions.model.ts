@@ -1,13 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 const confessionSchema = new Schema({
-  clerk_id: {
-    type: String,
-    required: true,
-    index: true,
-  },
   user_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Types.ObjectId,
+    ref: "User",
     required: true,
     index: true,
   },
@@ -28,6 +24,10 @@ const confessionSchema = new Schema({
   feeling: {
     type: String,
     default: null,
+  },
+  likeCount: {
+    type: Number,
+    default: 0,
   },
   createdAt: {
     type: Date,

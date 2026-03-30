@@ -35,9 +35,17 @@ export async function POST(request: NextRequest) {
     if (existingLike) {
       // UNLIKE
       await Like.deleteOne({ userId, confessionId });
+
+      await Confession.findByIdAndUpdate(confessionId, {
+        $inc: { likeCount: -1 }, // Bawasan ng 1
+      });
     } else {
       // LIKE
       await Like.create({ userId, confessionId });
+
+      await Confession.findByIdAndUpdate(confessionId, {
+        $inc: { likeCount: 1 }, // Dagdag ng 1
+      });
     }
 
     return NextResponse.json({ success: true });

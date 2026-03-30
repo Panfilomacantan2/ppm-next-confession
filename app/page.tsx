@@ -1,7 +1,6 @@
 "use client";
 
 import ConfessionList from "@/components/ConfessionList";
-
 interface HomeProps {
   searchParams: { [key: string]: string };
 }
@@ -9,6 +8,8 @@ interface HomeProps {
 export const dynamic = "force-dynamic";
 
 export default function Home({ searchParams }: HomeProps) {
+
+
   return (
     <>
       <ConfessionList searchParams={searchParams} />

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { completeOnboarding } from "@/lib/actions/user.actions";
 import { MessageCircleHeart, User, Settings, CheckCircle2, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
@@ -114,7 +115,7 @@ export default function BoardingPage() {
               {/* Avatar preview */}
               {avatar && (
                 <div className="flex items-center gap-3">
-                  <img src={avatar} alt={name} className="h-12 w-12 rounded-full object-cover ring-2 ring-border" />
+                  <Image src={avatar} alt={name} width={48} height={48} className="h-12 w-12 rounded-full object-cover ring-2 ring-border" />
                   <div>
                     <p className="text-sm font-medium">{name}</p>
                     <p className="text-xs text-muted-foreground">{email}</p>
