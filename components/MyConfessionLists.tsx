@@ -33,7 +33,7 @@ const MyConfessionLists = () => {
     data: confessions,
     error,
     isLoading,
-  } = useConfessionSWR(`/api/my-confession?id=${user?.id}`, {
+  } = useConfessionSWR(`/api/my-confession`, {
     onSuccess: (data: any) => {
       data.sort(
         (a: TConfession, b: TConfession) =>
