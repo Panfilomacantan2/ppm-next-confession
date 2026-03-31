@@ -13,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "./ui/textarea";
 import { TConfession } from "@/lib/types";
 import { useState } from "react";
@@ -30,6 +29,7 @@ import {
 } from "./ui/select";
 
 import AnonymousImg from "@/public/icons/anonymous.png";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   comment: z.string().min(2, {
@@ -91,14 +91,12 @@ export default function CommentInputForm({
 
       await mutate(`/api/confession/${confessionId}`);
 
-      toast({
-        title: "Comment added",
+      toast.success("Comment added", {
         description: "Your comment has been added successfully.",
       });
     } catch (error) {
       console.error("Error adding comment:", error);
-      toast({
-        title: "Failed to add comment",
+      toast.error("Failed to add comment", {
         description:
           "There was an error adding your comment. Please try again.",
       });

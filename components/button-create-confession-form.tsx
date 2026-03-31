@@ -32,7 +32,6 @@ import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "./ui/skeleton";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "./ui/use-toast";
 import { mutate } from "swr";
 import { feelings } from "@/constants";
 import {
@@ -49,6 +48,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   feeling: z.string().min(1, {
@@ -102,8 +102,7 @@ export default function ButtonCreateConfessionForm() {
       const response = await createConfession;
 
       if (response.ok) {
-        toast({
-          title: "Confession Submitted",
+        toast.success("Confession Submitted", {
           description: "Your confession has been successfully submitted.",
         });
 
@@ -118,8 +117,7 @@ export default function ButtonCreateConfessionForm() {
         // Delay the redirection to allow the user to see the toast | redirect to home page
         router.push("/");
       } else {
-        toast({
-          title: "Submission Failed",
+        toast.error("Submission Failed", {
           description:
             "There was an issue submitting your confession. Please try again.",
         });

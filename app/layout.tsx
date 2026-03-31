@@ -1,6 +1,5 @@
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
@@ -10,6 +9,7 @@ import { connectToDB } from "@/lib/mongoose";
 import User from "@/lib/models/user.model";
 import { redirect } from "next/navigation";
 import { LoadingProvider } from "@/lib/LoadingContext";
+import { Toaster } from "sonner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -77,7 +77,7 @@ export default async function RootLayout({
             <LoadingProvider>
               <ClientLayout>{children}</ClientLayout>
             </LoadingProvider>
-            <Toaster />
+            <Toaster position="top-center" theme="dark" />
           </ThemeProvider>
         </body>
       </html>

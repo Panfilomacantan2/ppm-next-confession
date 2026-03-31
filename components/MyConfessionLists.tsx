@@ -8,7 +8,6 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import AutoFitLayout from "./AutoFitLayout";
 import DeleteDialog from "./DeleteDialog";
-import { toast } from "./ui/use-toast";
 import EditDialog from "./EditDialog";
 import { useConfessionSWR } from "@/lib/helper";
 import { mutate } from "swr";
@@ -20,17 +19,15 @@ import EmptyConfession from "./EmptyConfession";
 import AnonymousImg from "@/public/icons/anonymous.png";
 import { useEffect } from "react";
 import { usePageLoading } from "@/lib/LoadingContext";
+import { toast } from "sonner";
 
 dayjs.extend(relativeTime);
 
 export const dynamic = "force-dynamic";
 
 const MyConfessionLists = () => {
+  const { setIsPageLoading } = usePageLoading();
 
-    const { setIsPageLoading } = usePageLoading();
-  
-  
-   
   const { isLoaded, isSignedIn, user } = useUser();
   const {
     data: confessions,
@@ -45,10 +42,9 @@ const MyConfessionLists = () => {
     },
   });
 
-   useEffect(() => {
-      setIsPageLoading(isLoading);
-    }, [isLoading]);
-  
+  useEffect(() => {
+    setIsPageLoading(isLoading);
+  }, [isLoading]);
 
   const deleteConfession = async (id: string) => {
     try {
@@ -64,13 +60,11 @@ const MyConfessionLists = () => {
       );
 
       // Add your logic to delete the confession here
-      toast({
-        title: "Confession deleted",
+      toast.success("Confession deleted", {
         description: "Your confession has been deleted successfully!",
       });
     } catch (error) {
-      toast({
-        title: "Error",
+      toast.error("Error deleting confession", {
         description: "Failed to delete confession!",
       });
     }
@@ -81,12 +75,14 @@ const MyConfessionLists = () => {
   if (!confessions?.length) return <EmptyConfession />;
 
   return (
-    <section className="min-h-screen max-w-7xl py-28 mx-auto">
+    <section className="mx-auto min-h-screen max-w-7xl py-28">
       {/* Header */}
       <div className="px-5 pb-2 lg:px-20">
         <div className="flex items-center gap-2">
           <span className="text-2xl">📖</span>
-          <h2 className="text-xl font-semibold tracking-tight">My Confessions</h2>
+          <h2 className="text-xl font-semibold tracking-tight">
+            My Confessions
+          </h2>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
           Your private thoughts, laid bare.
@@ -129,7 +125,8 @@ const MyConfessionLists = () => {
                   {confession?.author}
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  {confession.feeling ?? "😊 Happy"} · {dayjs(confession?.createdAt).fromNow()}
+                  {confession.feeling ?? "😊 Happy"} ·{" "}
+                  {dayjs(confession?.createdAt).fromNow()}
                 </span>
               </div>
             </div>

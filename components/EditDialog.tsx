@@ -34,11 +34,11 @@ import { useUser } from "@clerk/nextjs";
 import { Skeleton } from "./ui/skeleton";
 import { LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "./ui/use-toast";
 import { useEffect, useState } from "react";
 import { TComment, TConfession } from "@/lib/types";
 import { mutate } from "swr";
 import { feelings } from "@/constants";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   feeling: z.string().min(1, {
@@ -101,8 +101,7 @@ export default function EditDialog({
         throw new Error("Failed to update confession");
       }
 
-      toast({
-        title: "Confession Updated",
+      toast.success("Confession Updated", {
         description: "Your confession has been successfully updated.",
       });
 
