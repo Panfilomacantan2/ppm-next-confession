@@ -26,6 +26,8 @@ const ConfessionPage = ({ params }: { params: { id: string } }) => {
   // No data found
   if (!confessions) return <p>No confession found for ID: {params.id}</p>;
 
+  console.log(confessions)
+
   return (
     <section className="flex min-h-screen w-full items-center justify-center px-3 py-24">
       <CardConfession

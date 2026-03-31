@@ -1,5 +1,6 @@
 "use server";
 
+import { NextResponse } from "next/server";
 import Confession from "../models/confessions.model";
 import { connectToDB } from "../mongoose";
 
@@ -99,6 +100,10 @@ export const addCommentToConfession = async (
 
     // Save the updated confession
     await confession.save();
+
+    return NextResponse.json({ id, author, content, avatar });
+
+
   } catch (error) {
     console.error("Error adding comment:", error);
     throw error;

@@ -48,8 +48,12 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
     return (
       <div className="flex flex-col items-center justify-center gap-1 py-8 text-center">
         <MessagesSquare size={28} className="text-muted-foreground/50" />
-        <p className="text-sm font-medium text-foreground/80">No comments yet</p>
-        <p className="text-xs text-muted-foreground">Be the first to confess a reply.</p>
+        <p className="text-sm font-medium text-foreground/80">
+          No comments yet
+        </p>
+        <p className="text-xs text-muted-foreground">
+          Be the first to confess a reply.
+        </p>
       </div>
     );
 
@@ -64,7 +68,9 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full ring-1 ring-border">
             {comment.avatar ? (
               <Image
-                src={comment.author === "Anonymous" ? AnonymousImg : comment.avatar}
+                src={
+                  comment.author === "Anonymous" ? AnonymousImg : comment.avatar
+                }
                 alt={comment.author}
                 width={32}
                 height={32}
@@ -77,13 +83,16 @@ const CommentLists = ({ confession }: { confession: TConfession }) => {
           </div>
 
           {/* Bubble */}
-          <DeleteCommentModal>
+          <DeleteCommentModal
+            commentId={comment._id}
+            confessionId={confession._id}
+          >
             <div className="flex flex-col">
               <div className="rounded-2xl rounded-tl-sm bg-muted px-3 py-2">
-                <p className="mb-0.5 text-xs font-semibold capitalize text-foreground">
+                <p className="mb-0.5 text-left text-xs font-semibold capitalize text-foreground">
                   {comment.author}
                 </p>
-                <p className="break-words text-sm leading-snug text-foreground/80">
+                <p className="break-words text-left text-sm leading-snug text-foreground/80">
                   {comment.content}
                 </p>
               </div>

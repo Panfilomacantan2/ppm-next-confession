@@ -37,6 +37,11 @@ const confessionSchema = new Schema({
 
   comments: [
     {
+      clerkId: {
+        type: String,
+        required: true,
+        index: true,
+      },
       author: { type: String, default: "Anonymous" },
       content: { type: String, required: true },
       avatar: { type: String, default: null },

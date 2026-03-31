@@ -61,21 +61,21 @@ export default function CommentInputForm({
 
   const [loading, setLoading] = useState(false);
 
-  console.log(AnonymousImg);
+
 
   async function onSubmit(content: z.infer<typeof FormSchema>) {
     try {
       // Add comment to the confession
       setLoading(true);
-      const addComment = await fetch(
-        `/api/confession/${confessionId}/comments/add`,
+      const response = await fetch(
+        `/api/confession/${confessionId}/comments/`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            _id: confessionId,
+            id: confessionId,
             author: content.commentAs ?? "Anonymous",
             content: content.comment,
             avatar: user.imageUrl,
@@ -83,13 +83,15 @@ export default function CommentInputForm({
         },
       );
 
+      console.log(response);
+
       setLoading(false);
 
-      if (!addComment.ok) {
+      if (!response.ok) {
         throw new Error("Failed to add comment");
       }
 
-      await mutate(`/api/confession/${confessionId}`);
+    await mutate(`/api/confession/${confessionId}`);
 
       toast.success("Comment added", {
         description: "Your comment has been added successfully.",

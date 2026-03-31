@@ -66,7 +66,7 @@ const CardConfession = ({
           )}
         </div>
 
-        <div className="items-centers flex flex-col justify-start">
+        <div className=" flex flex-col justify-start">
           <p className="text-left text-sm text-foreground">
             {confession.author}
           </p>
