@@ -1,5 +1,6 @@
 "use client";
 
+import NotFound from "@/app/not-found";
 import CardConfession from "@/components/CardConfession";
 import Loading from "@/components/Loading";
 import { useConfessionSWR } from "@/lib/helper";
@@ -13,20 +14,18 @@ const ConfessionPage = ({ params }: { params: { id: string } }) => {
     isLoading,
   } = useConfessionSWR(`/api/confession/${params.id}`);
 
-  // console.log(confessions);
-
-// !todo: add functionality to logout in sidebar
+  // !todo: add functionality to logout in sidebar
 
   // Loading state
   if (isLoading) return <Loading />;
 
   // Error handling
-  if (error) return <p>Failed to load confession: {error.message}</p>;
+  if (error) return NotFound();
 
   // No data found
-  if (!confessions) return <p>No confession found for ID: {params.id}</p>;
+  if (!confessions) return NotFound();
 
-  console.log(confessions)
+  console.log(confessions);
 
   return (
     <section className="flex min-h-screen w-full items-center justify-center px-3 py-24">

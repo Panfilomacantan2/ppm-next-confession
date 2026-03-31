@@ -41,6 +41,10 @@ const CardConfession = ({
     }
   };
 
+  if(!confession) return <p>Confession not found.</p>
+
+  console.log(confession)
+
   return (
     <Card className="relative min-h-[260px] w-full max-w-lg px-4 py-8 text-center hover:border-blue-400/30">
       <div className="flex items-center justify-start gap-x-2">
